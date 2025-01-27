@@ -1,0 +1,11 @@
+You can sort the processes by CPU usage to identify resource-heavy processes:
+
+Get-Process | Sort-Object CPU -Descending
+Similarly, to see which processes are using the most memory:
+
+Get-Process | Sort-Object WorkingSet -Descending
+If you want to measure the time taken for specific commands to execute (to analyze their performance), use the Measure-Command cmdlet. This is useful for testing how long particular tasks or scripts take to run.
+
+For example, to measure how long it takes to retrieve a list of processes:
+
+Measure-Command { Get-Process }

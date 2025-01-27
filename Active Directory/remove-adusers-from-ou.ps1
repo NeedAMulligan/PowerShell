@@ -1,0 +1,1 @@
+Get-ADUser -SearchBase "OU=2023,OU=Disabled Users,DC=ewacorp,DC=com" -Filter * | Remove-ADUser -Confirm:$true -Verbose

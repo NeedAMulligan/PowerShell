@@ -1,0 +1,1 @@
+Get-ADUser -filter * -properties PasswordLastSet, PasswordExpired, PasswordNeverExpires | Sort-Object Name | Format-Table Name, PasswordLastSet, PasswordExpired, PasswordNeverExpires

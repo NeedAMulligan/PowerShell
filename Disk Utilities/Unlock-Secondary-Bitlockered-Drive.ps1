@@ -1,0 +1,1 @@
+Unlock-BitLocker -MountPoint "Drive Letter" -RecoveryPassword "xxxxxx-xxxxxx-xxxxxx-xxxxxx-xxxxxx-xxxxxx-xxxxxx-xxxxxx"

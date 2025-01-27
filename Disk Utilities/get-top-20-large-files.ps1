@@ -1,0 +1,1 @@
+﻿gci -r|sort -descending -property length | select -first 20 fullname, @{Name="Gigabytes";Expression={[Math]::round($_.length / 1GB, 2)}}

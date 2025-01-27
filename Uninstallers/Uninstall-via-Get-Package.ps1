@@ -1,0 +1,1 @@
+Get-Package -Name "*Notepad++*" -AllVersions | Uninstall-Package -Force -ErrorAction SilentlyContinue

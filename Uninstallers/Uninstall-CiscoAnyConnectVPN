@@ -1,0 +1,2 @@
+c:\windows\system32\msiexec.exe /x (Get-WmiObject -Class Win32_Product -Filter "Name='Cisco AnyConnect Secure Mobility Client'").IdentifyingNumber /norestart /qn
+c:\windows\system32\msiexec.exe /x (Get-WmiObject -Class Win32_Product -Filter "Name='Cisco AnyConnect Start Before Login Module'").IdentifyingNumber /norestart /qn

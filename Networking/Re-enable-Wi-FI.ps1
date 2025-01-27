@@ -1,0 +1,1 @@
+$wifi = Get-HPBIOSSettingValue -Name "Wireless Network Device (WLAN)" -ErrorAction SilentlyContinue; if ($wifi -eq "Disable") {; Write-Output "Wi-Fi was disabled"; Set-HPBIOSSettingValue -Name "Wireless Network Device (WLAN)" -Value "Enable" -Password "Hazegray#5000?"} else { Write-Output "Wi-FI has already been enabled or is not found"; exit 5; }

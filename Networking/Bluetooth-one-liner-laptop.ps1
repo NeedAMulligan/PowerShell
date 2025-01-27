@@ -1,0 +1,1 @@
+﻿$laptop = Get-HPBiosSettingValue -Name "Bluetooth"; if ($laptop -eq "Enable") {; Write-Output "Bluetooth is disabled"; Set-HPBIOSSettingValue -Name "Bluetooth" -Value "Disable";  } else {; Write-Output -message "Bluetooth not found or is already disabled"; exit 5; }

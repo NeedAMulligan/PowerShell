@@ -1,0 +1,1 @@
+Get-VM –VMname * | Select-Object VMname,AutomaticStartAction,AutomaticStartDelay,AutomaticStopAction

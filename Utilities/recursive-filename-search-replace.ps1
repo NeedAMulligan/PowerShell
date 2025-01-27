@@ -1,0 +1,12 @@
+﻿Get-ChildItem -Filter "*January*" -Recurse | Rename-Item -NewName {$_.name -replace 'January','01 - January' }
+Get-ChildItem -Filter "*February*" -Recurse | Rename-Item -NewName {$_.name -replace 'February','02 - February' }
+Get-ChildItem -Filter "*March*" -Recurse | Rename-Item -NewName {$_.name -replace 'March','03 - March' }
+Get-ChildItem -Filter "*April*" -Recurse | Rename-Item -NewName {$_.name -replace 'April','04 - April' }
+Get-ChildItem -Filter "*May*" -Recurse | Rename-Item -NewName {$_.name -replace 'May','05 - May' }
+Get-ChildItem -Filter "*June*" -Recurse | Rename-Item -NewName {$_.name -replace 'June','06 - June' }
+Get-ChildItem -Filter "*July*" -Recurse | Rename-Item -NewName {$_.name -replace 'July','07 - July' }
+Get-ChildItem -Filter "*August*" -Recurse | Rename-Item -NewName {$_.name -replace 'August','08 - August' }
+Get-ChildItem -Filter "*September*" -Recurse | Rename-Item -NewName {$_.name -replace 'September','09 - September' }
+Get-ChildItem -Filter "*October*" -Recurse | Rename-Item -NewName {$_.name -replace 'October','10 - October' }
+Get-ChildItem -Filter "*November*" -Recurse | Rename-Item -NewName {$_.name -replace 'November','11 - November' }
+Get-ChildItem -Filter "*December*" -Recurse | Rename-Item -NewName {$_.name -replace 'December','12 - December' }

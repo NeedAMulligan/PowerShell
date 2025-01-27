@@ -1,0 +1,2 @@
+connect-exchangeonline
+Set-HostedContentFilterPolicy "Strict Preset Security Policy1653409870879" -HighConfidenceSpamQuarantineTag NotificationEnabledPolicy

@@ -1,0 +1,1 @@
+﻿Get-EventLog -LogName application -Newest 1000 -Source 'Windows Error*' | Select timewritten, message | Where message -match 'bluescreen’ |  Ft -auto -wrap

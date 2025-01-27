@@ -1,0 +1,6 @@
+To get the last 10 system events:
+
+Get-EventLog -LogName System -Newest 10
+Filter events by type (e.g., errors):
+
+Get-EventLog -LogName Application -EntryType Error -Newest 10

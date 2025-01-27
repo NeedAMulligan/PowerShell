@@ -1,1 +1,0 @@
-Get-PhysicalDisk | Where-Object {$_.HealthStatus -ne 'Healthy'}

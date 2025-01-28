@@ -1,0 +1,3 @@
+Perform route diagnostics to connect to a remote host
+
+Test-NetConnection -ComputerName www.contoso.com -DiagnoseRouting -InformationLevel Detailed

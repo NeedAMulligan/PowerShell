@@ -1,7 +1,7 @@
 ﻿#Define location of script variable
 
 Import-Module ActiveDirectory 
-$path = Split-Path -parent "c:\users\erikberndt\desktop\*.*"
+$path = Split-Path -parent "c:\users\USERNAME\desktop\*.*"
 
 #Create a variable for the date stamp in the log file
 
@@ -18,7 +18,7 @@ Import-Module ActiveDirectory
 
 #Sets the OU to do the base search for all user accounts, change as required.
 
-$SearchBase = "OU=Superior Paving Employees,DC=superiorpaving,DC=net"
+$SearchBase = "OU=UPDATE-INFO,DC=UPDATE-INFO,DC=net"
 
 #Get Admin accountb credential
 
@@ -26,7 +26,7 @@ $GetAdminact = Get-Credential
 
 #Define variable for a server with AD web services installed
 
-$ADServer = 'spc-dc1.superiorpaving.net'
+$ADServer = 'UPDATE-INFO.net'
 
 #Find users that are not disabled
 #Define "Account Status" 

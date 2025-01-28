@@ -1,7 +1,7 @@
 ﻿#Define location of script variable
 
 Import-Module ActiveDirectory 
-$path = Split-Path -parent "c:\users\USERNAME\desktop\*.*"
+$path = Split-Path -parent "c:\users\UPDATE-INFO\desktop\*.*"
 
 #Create a variable for the date stamp in the log file
 

@@ -1,0 +1,3 @@
+Get detailed output for a TCP connection test
+
+Test-Connection bing.com -TCPPort 443 -Detailed -Count 4

@@ -1,0 +1,5 @@
+download file locally and run
+
+winget-install.ps1
+
+.\winget-install.ps1

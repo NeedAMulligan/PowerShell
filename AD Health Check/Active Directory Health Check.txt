@@ -1,0 +1,17 @@
+This will check below:
+
+Ping,Netlogon,NTDS,DNS,DCdiag Test(Replication,sysvol,Services)
+
+Just download the zip file from above & run the batch file using Admin privileges.(run it from machine that is not DC)
+
+Below is the report that will arrive in your mailbox.
+
+Change Variables in .ps1 as needed:
+
+$smtphost = "SMTP.labtest.com" 
+
+$from = "DoNotReply@labtest.com" 
+
+$to = "Sukhija@labtest.com"
+
+$timeout = "60"

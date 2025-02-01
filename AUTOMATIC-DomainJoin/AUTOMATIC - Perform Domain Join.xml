@@ -1,0 +1,560 @@
+﻿<LabTech_Expansion
+	Version="110.353"
+	Name="LabTech Script Expansion"
+	Type="PackedScript">
+	<PackedScript>
+		<NewDataSet>
+			<Table>
+				<ScriptId>6405</ScriptId>
+				<FolderId>246</FolderId>
+				<ScriptName>AUTOMATIC - Perform Domain Join</ScriptName>
+				<ScriptNotes>Calls Domain Join script, automatically providing the credentials needed.
+
+Darren White - Ray Morgan Company - 20171216</ScriptNotes>
+				<Permission>1,5,</Permission>
+				<EditPermission>1,5,</EditPermission>
+				<ComputerScript>1</ComputerScript>
+				<LocationScript>0</LocationScript>
+				<MaintenanceScript>1</MaintenanceScript>
+				<FunctionScript>0</FunctionScript>
+				<LicenseData>H4sIAAAAAAAEAFWPzQrCMBCE74LvkAdoyE9TTMuSi4ogCqLiPUn3kEta0gbs20uLQj0NszPfwsAleIwDHuxoDTynHo0Atijcc9x3OY6YDAe2cnB89yHNDJprF1s7FeScIxJZFkRyoUjVqF1TcXK7AluV4eFT6McXpiF0cf76f/jmpxxao73zzjmkpVUlFQIVrevaUik559Zrq7X68QsAbL1lu/kAAwLlv9sAAAA=</LicenseData>
+				<ScriptData>H4sIAAAAAAAEAO2cYVOjOBjH39/MfYe8cWw9q4RACztep722ut7suL12725u1l0NIdXMUugC1f34BxQUa4kVQYizr5aEQOG3z/9J/iTxaEpctvCH2MfdX38B4GhV9qJCUBz98F0cnj1m1DI9cJicGGMXz6lP3VTdieUY2EpVrG72T9CIOXYXHh0+rHjQ6mTJzK5GDGIYBm0hrKAWhFRp6bqOW7IsSRImGtY0JblLdEH0zIfph45vN/Xp4u4t+sSPHyA+iuuPl3ZUPjXDc6lS+iXh2kvLa2W0VlbWymqKh+P6XSl43vDfuG7g2D6zlzSsvzuOz330PrA5iy5JDuMzp7ZJbR9HLxOcTRfTSO4pcLDIHCyylM0lZBYfPeATPlB89IBTd0INx/HH1DaZfRW3QWWzg53K4EEJcegZ6kzSJawEsQ5pZqxvBNwjznyxDMTHzF4G69HweHBNybdcmKFIIdrhhWgv4dDLQIky+MHN4LrvRrY5dOaY2X86zI4bKVyaskg0IdI5OCOUYBBHHwjgbsb6whSJhCLGVTltI0mXZyhUuVkvlSsiUa69ylWRaPJV/u4PesXsR+9frMbbb4fXK2XFTtHEYGVZsT2TNGTQTjljn745Z/bApeGrMWydDnOlR00k3Pz0+AhIVp5sZxCVsvLkhPouozf0/ubeVtlSFwnuNur/4JDol0tTPyzcN1YnfwlJbUnFJJA/lZ4n/x0rBs3MnVLlDws3QT/1n6JbuCmqOgEMLBb8eHnyL9wTVSf/DtTaQeev5pE/iTCXLv7CvdFP8afoFu6VSo1lmeuVNjnFgqVfuFWqLldyYqZgaGK5Jb3NgTalFiU+WBxc/u1R9wzP6SXAHrgv7QPi2DfU9Rv90fRiOBpM/ht/agTtx9jzbh3XvNyfvu83Bh/PBv1PjV2wux+cG8SZ9PI32Gw2wdJj9hVY+jOtGd387lIwc505SIoe6E/BAvz7fjQZgdQvnA4vf9/dkGt2y/nffTvmbMf7bpnYx14gDOeWOEvb3ynwK1buHC2WQ9M7HMT3hDPAws1gnxmUslAOLdfMXi9AmWSdzK8vw4uwSa5xlyyU6cqNMEmaHIRJk3wY35C74iexYrsVWSyTxR+YnlC/Pzz+a3hWDqocDkmv0I/KXIu0SllZxqjx+Wvvy16zd7BXTD8hlP3hD15cekV/uNRbWpmjFnk7aHcJ84nJdKHMUK4eYhPUQjtZsazRi6T7+ev5+Ze98/PGwV6zGPG+Iefx+uIVylTUUrxIKJPxxNCu3CEKEspM1GKJARLLOHBnGWRCqK6ScJIRzopfYzC8SAXuMzUslM14YnZhxeGZC68e9R+hy1vPBvy+BAk1RVOLJQRIKOPBVzfSoaGbKNcc4hZLCF6ibqEcSl3VLZZHqX59ABLKl/C1rWhE0WRolLI+4CXKFsq+1FTZilgGpurJf+UNmZhNwVIwLbH8C5/WmLozx52XHWBCmRHIm+c1kE7kNpq1qGzoYb+BWjqGZJt+I2PL4nNZZnkSWEuWW4xaggAE8YZN4EbbNwG2TbBYhWZSxWbB0fclc6l5UE6QiuVceEGKEZR0RZJbikLjDWFYUTtxkBpUR5pRbpBm+ZNaBil3FLNpQ/GWX7CL3PqlCGVWVA7RtdB5sWyzTEktQw2Gj/taZLKsRD3JcHuKMV6tHVzdGyyDp7fAhM4dn4ZfrOdBh+EB7NKgj1gt4zD3gX9NbXCLmR9eCGUJeJQ4YTvfAdiynFtAkiuDmhmzmXddTteiiuVHwpXp2TN6lu/dEJO5WdN5GQvdspZ4P4WucG8ilzmdx/kTH4HPk8qJrsINSZmIuAOXtmJiNdyzqagmrmLgomY5FQFz5it8OVCF2t/P/dBScOerVrFXPynHf2rpfyGU0g15SQAA</ScriptData>
+				<ScriptVersion>1</ScriptVersion>
+				<ScriptGuid>019a800f-0f32-11e7-ad92-02df4959daf1</ScriptGuid>
+				<ScriptFlags>0</ScriptFlags>
+				<Parameters></Parameters>
+			</Table>
+		</NewDataSet>
+		<ExtraDataField>
+			<NewDataSet>
+				<Table>
+					<ID>591</ID>
+					<Form>1</Form>
+					<Name>AUTO-Enable Automatic Actions</Name>
+					<Sort>0</Sort>
+					<NoBreak>0</NoBreak>
+					<FType>2</FType>
+					<Section>AUTO</Section>
+					<UnEditable>0</UnEditable>
+					<Collapsed>0</Collapsed>
+					<Fill>~Select Convert(Concat('Inherit Setting',CHAR(0),0) Using UTF8) UNION Select Convert(Concat('Enable Automatic Actions',CHAR(0),1) Using UTF8) UNION Select Convert(Concat('Disable Automatic Actions',CHAR(0),999) Using UTF8)|Automatic Actions Policy|2</Fill>
+					<LtGuid>b5f090a4-3a1e-11e4-999a-22000ac8a884</LtGuid>
+					<IsPassword>false</IsPassword>
+					<IsEncrypted>false</IsEncrypted>
+					<IsHidden>false</IsHidden>
+					<IsRestricted>false</IsRestricted>
+					<ViewPermissions></ViewPermissions>
+					<EditPermissions></EditPermissions>
+				</Table>
+			</NewDataSet>
+		</ExtraDataField>
+		<ExtraDataField>
+			<NewDataSet>
+				<Table>
+					<ID>589</ID>
+					<Form>1</Form>
+					<Name>AUTO-Enable Domain Join</Name>
+					<Sort>5</Sort>
+					<NoBreak>0</NoBreak>
+					<FType>1</FType>
+					<Section>AUTO</Section>
+					<UnEditable>0</UnEditable>
+					<Collapsed>0</Collapsed>
+					<Fill>Check this box to enable domain joining|2</Fill>
+					<LtGuid>e63092f3-3a1d-11e4-999a-22000ac8a884</LtGuid>
+					<IsPassword>false</IsPassword>
+					<IsEncrypted>false</IsEncrypted>
+					<IsHidden>false</IsHidden>
+					<IsRestricted>false</IsRestricted>
+				</Table>
+			</NewDataSet>
+		</ExtraDataField>
+		<ExtraDataField>
+			<NewDataSet>
+				<Table>
+					<ID>590</ID>
+					<Form>1</Form>
+					<Name>AUTO-Domain Admin Credentials</Name>
+					<Sort>5</Sort>
+					<NoBreak>0</NoBreak>
+					<FType>2</FType>
+					<Section>AUTO</Section>
+					<UnEditable>0</UnEditable>
+					<Collapsed>0</Collapsed>
+					<Fill>~Select Convert(Concat('Use Location Setting',CHAR(0),0) Using UTF8) UNION Select Convert(Concat(passwords.Title,CHAR(0),passwords.PasswordID) Using UTF8) From passwords WHERE passwords.ClientID IN (0,'%clientid%')|Select user for domain join and automatic software actions|0</Fill>
+					<LtGuid>6f083be7-3a1e-11e4-999a-22000ac8a884</LtGuid>
+					<IsPassword>false</IsPassword>
+					<IsEncrypted>false</IsEncrypted>
+					<IsHidden>false</IsHidden>
+					<IsRestricted>false</IsRestricted>
+					<ViewPermissions></ViewPermissions>
+					<EditPermissions></EditPermissions>
+				</Table>
+			</NewDataSet>
+		</ExtraDataField>
+		<ExtraDataField>
+			<NewDataSet>
+				<Table>
+					<ID>598</ID>
+					<Form>2</Form>
+					<Name>AUTO-Domain Admin Credentials</Name>
+					<Sort>5</Sort>
+					<NoBreak>0</NoBreak>
+					<FType>2</FType>
+					<Section>AUTO</Section>
+					<UnEditable>0</UnEditable>
+					<Collapsed>0</Collapsed>
+					<Fill>~Select Convert(Concat('Use Client Setting',CHAR(0),0) Using UTF8) UNION Select Convert(Concat(passwords.Title,CHAR(0),passwords.PasswordID) Using UTF8) From passwords WHERE passwords.ClientID=%clientid%|Select user for domain join and automatic software actions|0</Fill>
+					<LtGuid>030605ac-3ae0-11e4-999a-22000ac8a884</LtGuid>
+					<IsPassword>false</IsPassword>
+					<IsEncrypted>false</IsEncrypted>
+					<IsHidden>false</IsHidden>
+					<IsRestricted>false</IsRestricted>
+				</Table>
+			</NewDataSet>
+		</ExtraDataField>
+		<ExtraDataField>
+			<NewDataSet>
+				<Table>
+					<ID>601</ID>
+					<Form>3</Form>
+					<Name>AUTO-Domain Admin Credentials</Name>
+					<Sort>5</Sort>
+					<NoBreak>0</NoBreak>
+					<FType>2</FType>
+					<Section>AUTO</Section>
+					<UnEditable>0</UnEditable>
+					<Collapsed>0</Collapsed>
+					<Fill>~Select Convert(Concat('Not Specified',CHAR(0),0) Using UTF8) UNION Select Convert(Concat(passwords.Title,CHAR(0),passwords.PasswordID) Using UTF8) From passwords WHERE passwords.ClientID=%clientid%|Select user for domain join and automatic software actions|0</Fill>
+					<LtGuid>7186be75-3ae0-11e4-999a-22000ac8a884</LtGuid>
+					<IsPassword>false</IsPassword>
+					<IsEncrypted>false</IsEncrypted>
+					<IsHidden>false</IsHidden>
+					<IsRestricted>false</IsRestricted>
+				</Table>
+			</NewDataSet>
+		</ExtraDataField>
+		<ExtraDataField>
+			<NewDataSet>
+				<Table>
+					<ID>592</ID>
+					<Form>1</Form>
+					<Name>AUTO-Domain FQDN</Name>
+					<Sort>5</Sort>
+					<NoBreak>0</NoBreak>
+					<FType>0</FType>
+					<Section>AUTO</Section>
+					<UnEditable>0</UnEditable>
+					<Collapsed>0</Collapsed>
+					<Fill>Fully qualified domain name for the workstation to join - Use Location value if blank</Fill>
+					<LtGuid>2cce95cc-3a1f-11e4-999a-22000ac8a884</LtGuid>
+					<IsPassword>false</IsPassword>
+					<IsEncrypted>false</IsEncrypted>
+					<IsHidden>false</IsHidden>
+					<IsRestricted>false</IsRestricted>
+				</Table>
+			</NewDataSet>
+		</ExtraDataField>
+		<ExtraDataField>
+			<NewDataSet>
+				<Table>
+					<ID>599</ID>
+					<Form>2</Form>
+					<Name>AUTO-Domain FQDN</Name>
+					<Sort>5</Sort>
+					<NoBreak>0</NoBreak>
+					<FType>0</FType>
+					<Section>AUTO</Section>
+					<UnEditable>0</UnEditable>
+					<Collapsed>0</Collapsed>
+					<Fill>Fully qualified domain name for agents to join - Use Client value if blank</Fill>
+					<LtGuid>391b9d35-3ae0-11e4-999a-22000ac8a884</LtGuid>
+					<IsPassword>false</IsPassword>
+					<IsEncrypted>false</IsEncrypted>
+					<IsHidden>false</IsHidden>
+					<IsRestricted>false</IsRestricted>
+				</Table>
+			</NewDataSet>
+		</ExtraDataField>
+		<ExtraDataField>
+			<NewDataSet>
+				<Table>
+					<ID>600</ID>
+					<Form>3</Form>
+					<Name>AUTO-Domain FQDN</Name>
+					<Sort>5</Sort>
+					<NoBreak>0</NoBreak>
+					<FType>0</FType>
+					<Section>AUTO</Section>
+					<UnEditable>0</UnEditable>
+					<Collapsed>0</Collapsed>
+					<Fill>Fully qualified domain name for agents to join.</Fill>
+					<LtGuid>48c4821b-3ae0-11e4-999a-22000ac8a884</LtGuid>
+					<IsPassword>false</IsPassword>
+					<IsEncrypted>false</IsEncrypted>
+					<IsHidden>false</IsHidden>
+					<IsRestricted>false</IsRestricted>
+				</Table>
+			</NewDataSet>
+		</ExtraDataField>
+		<PackedScript>
+			<NewDataSet>
+				<Table>
+					<ScriptId>6402</ScriptId>
+					<FolderId>246</FolderId>
+					<ScriptName>Join Computer to Domain</ScriptName>
+					<ScriptNotes>This script will join a workstation to a domain. It does expect that the machine can resolve the domain and will be able to join.
+
+Darren White - Ray Morgan Company - 20160921</ScriptNotes>
+					<Permission>1,2,3,4,5,6,7,9,503,</Permission>
+					<EditPermission>1,2,3,4,5,6,7,9,</EditPermission>
+					<ComputerScript>1</ComputerScript>
+					<LocationScript>1</LocationScript>
+					<MaintenanceScript>1</MaintenanceScript>
+					<FunctionScript>0</FunctionScript>
+					<LicenseData>H4sIAAAAAAAEAFWPzQqDMBCE74W+Qx7AkD8tUZZc+nepUNrSe4xbyCWGqFDfvigt2NMwO/MtDFy8w9DjwQ7WwGOKaASwReE2hn03hgGT4cBWDo7v6NPMoDkl39opI7WdiFQZkVzkRFdCVkVBrjWwVRfuLvk4PDH1vgvz0//DNz+PvjWNKp3cqRdF2ZRUCFS0tMJRKTnn1mmrdf7jFwDYesp28wHJG8YQ2gAAAA==</LicenseData>
+					<ScriptData>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</ScriptData>
+					<ScriptVersion>1</ScriptVersion>
+					<ScriptGuid>b39c263f-e2b9-11e3-9a1c-22000ac8a884</ScriptGuid>
+					<ScriptFlags>0</ScriptFlags>
+					<Parameters>AD_FQDN,AD_User,AD_Password</Parameters>
+				</Table>
+			</NewDataSet>
+			<PackedScript>
+				<NewDataSet>
+					<Table>
+						<ScriptId>6403</ScriptId>
+						<FolderId>246</FolderId>
+						<ScriptName>GetLTFile</ScriptName>
+						<ScriptNotes>Script to retrieve a file, including file checks and aborts as needed. .ZIP files are automatically extracted.
+ComputerFilePath = Path and filename to save the downloaded file
+LTFilePath = Path to file in LTShare, or URL to file download. See Supported Examples below. LTPFilePath now accepts multiple sources, separated by "|".
+Optional Variables: 
+ComputerFileForced = 1: Forces file to be redownloaded bypassing cache
+ComputerFileForced = 0 (or missing): File will be downloaded from cache, file download will be skipped if file already exists
+LTFileMD5Hash: If defined, file will be rejected if the MD5 hash does not match.
+LTFileMD5Hash = GENERATE - Only for LTShare downloads, calculates MD5 checksum on server
+ComputerFileSizeMinBytes = X&gt;0: Sets the minimum accepted size for the downloaded file. If the file is smaller it is assumed corrupt/incomplete. 
+ComputerFileSizeMaxBytes = X&gt;0: Sets the maximum accepted size for the downloaded file. If the file is larger it is assumed corrupt or modified. 
+ComputerFilePreserve = 1: Do not perform post download processing (unzip, etc.)
+ComputerFilePreserve = 0 (or missing): Attempt to extract or prepare compressed archive. Modifies ComputerFilePath value to be the folder path of the extracted files.
+VERBOSE &gt; 0 - Enables additional script logging
+VERBOSE &lt;= 0 (Default) - Normal script output
+ComputerFileDownloadLimit = X &gt; 0 - Number of download attempts allowed per source.
+
+Return Variables:
+ComputerFilePath = "ERROR" if the file could not be downloaded.
+ComputerFilePath = The path to the downloaded file
+ComputerFilePath = The path to the folder where the downloaded file was extracted if ComputerFilePreserve&lt;&gt;1
+
+Examples:
+LTShare: LTFilePath=Utilities\filenamehere.exe
+HTTP: LTFilePath=http://www.download.com/myfile/filenamehere.exe
+HTTPS: LTFilePath=https://www.download.com/myfile/filenamehere.exe
+UNC Path: LTFilePath=\\localserver\sharename\folder\filenamehere.exe
+SFTP: LTFilePath=sftp://&lt;USERNAME&gt;:&lt;PASS&gt;@&lt;SFTPHOST&gt;/&lt;FOLDERANDFILE&gt;|&lt;SFTP HOSTKEY STRING&gt;
+Example: LTFilePath=sftp://fakeuser:fakepass@myserver/folder/filenamehere.exe|ssh-rsa 1024 ff:ff:ff:ff:ff:ff:ff:ff:ff:ff:ff:ff:ff:ff:ff:ff
+
+Script by: Darren White - Ray Morgan Company
+Updated 20171206</ScriptNotes>
+						<Permission>1,2,3,4,5,6,7,9,</Permission>
+						<EditPermission>1,5,6,</EditPermission>
+						<ComputerScript>1</ComputerScript>
+						<LocationScript>0</LocationScript>
+						<MaintenanceScript>0</MaintenanceScript>
+						<FunctionScript>1</FunctionScript>
+						<LicenseData>H4sIAAAAAAAEAFWPzQqDMBCE74W+Qx7AkB9NJbLk0r9LhdKW3lOzgVyiRIX69kVpwZ6G2ZlvYeASGow9HuxgDTymDo0AtijcxrhvxzhgMhzYysHx3YU0M2hOKTg7ZaS2E5F5RiQXBdGV3FWqINca2KoL9yaFbnhi6kMb56f/h29+HoMzLyVUnpeeci8dFQJLap2WlEvnC620s178+AUAtp6y3XwA+0M6OtoAAAA=</LicenseData>
+						<ScriptData>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</ScriptData>
+						<ScriptVersion>1</ScriptVersion>
+						<ScriptGuid>b515337f-0f2d-11e7-ad92-02df4959daf1</ScriptGuid>
+						<ScriptFlags>0</ScriptFlags>
+						<Parameters></Parameters>
+					</Table>
+				</NewDataSet>
+				<ScriptFolder>
+					<NewDataSet>
+						<Table>
+							<FolderID>246</FolderID>
+							<ParentID>0</ParentID>
+							<Name>__Examples</Name>
+							<GUID>3a28e85b-3064-4911-98cf-fd641ca4bc2b</GUID>
+						</Table>
+					</NewDataSet>
+				</ScriptFolder>
+			</PackedScript>
+			<ScriptFolder>
+				<NewDataSet>
+					<Table>
+						<FolderID>155</FolderID>
+						<ParentID>8</ParentID>
+						<Name>Active Directory</Name>
+						<GUID>a4a804a8-c72d-4ed1-affe-618687cab9a0</GUID>
+					</Table>
+				</NewDataSet>
+			</ScriptFolder>
+			<ScriptFolder>
+				<NewDataSet>
+					<Table>
+						<FolderID>8</FolderID>
+						<ParentID>0</ParentID>
+						<Name>Maintenance</Name>
+						<GUID>064548fa-1133-4823-a069-4197f8256f3e</GUID>
+					</Table>
+				</NewDataSet>
+			</ScriptFolder>
+		</PackedScript>
+		<PackedScript>
+			<NewDataSet>
+				<Table>
+					<ScriptId>6406</ScriptId>
+					<FolderId>246</FolderId>
+					<ScriptName>FUNCTION - Check For Pending Reboot</ScriptName>
+					<ScriptNotes>Checks to determine if a Reboot is needed. Set "RebootPending=1" if a restart is required. @RebootReason@ will contain the reasons a reboot was required, if any were found. If the Reason includes "!", the reboot is required.
+
+Darren White - Ray Morgan Company - 20170614</ScriptNotes>
+					<Permission>1,2,3,4,5,6,7,9,</Permission>
+					<EditPermission>1,2,3,4,5,6,7,9,</EditPermission>
+					<ComputerScript>1</ComputerScript>
+					<LocationScript>0</LocationScript>
+					<MaintenanceScript>1</MaintenanceScript>
+					<FunctionScript>1</FunctionScript>
+					<LicenseData>H4sIAAAAAAAEAFWPywrCMBRE94L/kA9oyKMpfXDJRsWNgtjiPm0vmIVpSFOwfy8tCnU1zAxnYOBiO3QjHk00GprZoxbAVoX75A7D5CIGzYFtHJze3oaFQd08pzD2Zk5IjT7iq8VAZJYQyYUieaWKSmbkdgW2YaDugvXxgWG0g1vG/4Nvf55sr00qeKm4pEphT4VARY3Kciol59y0WKZF++NXANj20n73Acwl/K3iAAAA</LicenseData>
+					<ScriptData>H4sIAAAAAAAEAO2b7W/iNhzH30/a/+C+mTZpXGMnQNv1EF0Hd9XgegJ21aRIk0lMz1KwmWNK+9/PDoYGjqQQkkLWe1P8kATn469/D9i97HuCTuQfWOLGjz8AcDmvh1FFVVuPUmDd26Yk8ENwuuj4jAUeE0lE2OiRIefyM2E+ZfeXp7Eec+2HgA9xELt5/iVf1CWUswa8PF1tWLnqw5T6DWxD69yxUMVxiF+BkDgV7FTrFYQsy8JDcm6fDRdPiW6I3uU0/jLmcX1JJsuBXXnSDMCUTHt7yqL6ja/7YrX4y8M1GGitbq/VnbV6NcaDC9mw1Hj1p2m75kxSNiW6fVk2fbdhh45pdMuiaHpumE+YxNHLqN54NY7kmUIKFpSCpW4lc9koCLjKSg/OlFKZaf6m9L9hh9LYwc281rW1kbG9k95g3szgkTFbtq9prEEeqeRshGkwFSQTO/RG9dYjOOQsEzK7TMj2Nm8oQXpwM7vGxaaHpts8p0xAIaynEO23Oq3rAfj5mo8nUx05vGsH+D4EP+Hx5DcALeT88l7/Be3ebRd4i6vA3cdWrwWWDdR/33wuN0FOc3OynQ+qlmk+MtnTZtwINEEHDwfE+wr0XP2awHRvs1Erk5eCMCVcbHz8s9N1+7ftwd1Vr+V2qSd4yEfS/WviY0lC89l6JF94oAYXEDdaBQmTUUsgbu2n4vruvPXSLrGM+2oOZlgQcMNCiYMgGibgAvTImD/g4KQwbZ/lzvr4xH1Hmc9noXs9FUKNy6R4i+a55N2rqeTAlBdU/51SQfw9s4ctRX/+5kRv+BvoYXEahxlSsyMXubEXL4tchzOcqQbwOw6JD/pEPFBPxXfuSrTnvo7IYYaEr+QqT5yAAvWeITV8Y3p/JblnSDi/y31nuWfIQg8o93TKdgLmf8KncM6SfMJjksDy2yt2RJkhgTygYHcJB5sxNs1YhEdC+VohHsyQSJbcHHQGV/faGBj4wBAvzhbknzse2vX93R+0ugs3p99B8KBPpGuKbp+E2vOBLmb4ngjXeLi2St57hCm1306IiMaelMYn/Eb9jcwvPvHdfyKE+WeYhZoU+zxlRi4GSrw7A95zUw5mSA0P+CtrKsAWw8OAAPmVAEYeJVDGdwLoCDzxKZhhZShUEo6lJOOJBBPBPa1tdg/4CMSoP/MGdDwmPlXpY/AEKFNPw76+eIap1PeNuAAYiEi07wqZHJT7tl+h9ibtF3DHw77l10cVz/HqeoO7WsEOghULWbXasA4d6Ff3c5QvsUzKDmEyywqCTt05s2s2/G7Fi7PiqFwpZR6hi8ED9BSA+RyA5SQUFb+g/DPGQpWPUr3lFin3vua3XLnfC9HF5pWZM7FS7RFusQm+strW1/RZwkI9yW8PHJVqe3BfoAkb1xnPTKEM6doBDwClLd6BCmlHPAj4TDsNxllFfYekHg5U/KmBhlE0Oo9FwYwIAnwaevxBlfwLsOp8iln5GTKxdNjo2Fx4Qhyaw0k1lHsSdnTxTxK8/Y+q2eVKklLXuVXI2rRLdRLyhTCm+CDGLtfhx+39hvYZR+Qy7NxPTL4lq5f76cijg5d0unl/f2vnnqZsAW9RN/+K8h+kfW37mTIAAA==</ScriptData>
+					<ScriptVersion>1</ScriptVersion>
+					<ScriptGuid>35588280-0f32-11e7-ad92-02df4959daf1</ScriptGuid>
+					<ScriptFlags>0</ScriptFlags>
+					<Parameters>RebootPending</Parameters>
+				</Table>
+			</NewDataSet>
+			<PackedScript>
+				<NewDataSet>
+					<Table>
+						<ScriptId>6178</ScriptId>
+						<FolderId>246</FolderId>
+						<ScriptName>Process PendingFileRenameOperations Registry Value</ScriptName>
+						<ScriptNotes>This script will attempt to process pending file operations that would otherwise require a restart to complete. This may allow a reboot to be avoided.
+
+Darren White - Ray Morgan Company - 20160809</ScriptNotes>
+						<Permission>1,2,3,4,5,6,7,9,</Permission>
+						<EditPermission>1,2,3,4,5,6,7,9,</EditPermission>
+						<ComputerScript>1</ComputerScript>
+						<LocationScript>0</LocationScript>
+						<MaintenanceScript>1</MaintenanceScript>
+						<FunctionScript>0</FunctionScript>
+						<LicenseData>H4sIAAAAAAAEAFWPTQrCMBSE94J3yAEa8mPaSHkEREUQ3ajoOiZPyCYtaQP29tKiUFfDzPANDJyCw9jhzvbWwG1o0Qhgk8Ilx22TY4/JcGAzB/t3G9LIoHmgj9h5OxTkaGO2aSBSF0RyURFdi3W9qsjmDGyGwNWl0PZ3TF1o4rj9H3z7Qw7eKGc99/pFnXKaCoEltUoKyiWvqqcWSvjyx08AsPmj5eIDpOaRVuEAAAA=</LicenseData>
+						<ScriptData>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</ScriptData>
+						<ScriptVersion>1</ScriptVersion>
+						<ScriptGuid>4cad0d7f-c4c7-11e5-a421-02066b7141d5</ScriptGuid>
+						<ScriptFlags>0</ScriptFlags>
+						<Parameters></Parameters>
+					</Table>
+				</NewDataSet>
+				<ScriptFolder>
+					<NewDataSet>
+						<Table>
+							<FolderID>246</FolderID>
+							<ParentID>0</ParentID>
+							<Name>__Examples</Name>
+							<GUID>3a28e85b-3064-4911-98cf-fd641ca4bc2b</GUID>
+						</Table>
+					</NewDataSet>
+				</ScriptFolder>
+			</PackedScript>
+			<ScriptFolder>
+				<NewDataSet>
+					<Table>
+						<FolderID>246</FolderID>
+						<ParentID>0</ParentID>
+						<Name>__Examples</Name>
+						<GUID>3a28e85b-3064-4911-98cf-fd641ca4bc2b</GUID>
+					</Table>
+				</NewDataSet>
+			</ScriptFolder>
+		</PackedScript>
+		<PackedScript>
+			<NewDataSet>
+				<Table>
+					<ScriptId>6407</ScriptId>
+					<FolderId>246</FolderId>
+					<ScriptName>EDF - AD FQDN Policy</ScriptName>
+					<ScriptNotes>Calculates the result of the Active Directory Domain EDF values</ScriptNotes>
+					<Permission>1,2,3,4,5,6,7,9,</Permission>
+					<EditPermission>1,2,3,4,5,6,7,9,</EditPermission>
+					<ComputerScript>1</ComputerScript>
+					<LocationScript>0</LocationScript>
+					<MaintenanceScript>1</MaintenanceScript>
+					<FunctionScript>1</FunctionScript>
+					<LicenseData>H4sIAAAAAAAEAFWPTQrCMBSE94J3yAEamsS0teUREP82ulFxnzRvkYVpSFOwt5cWhboaZoZvYODiWvQ9HnTSCh5jQMUhnxVug993g08YFYN84eD4Di5ODKpTdFaPGbljSPgyGAkXGRGMS1I2vG4YJ7sr5AsC7m10IT0x9q7z0/R/8O3Pg7OqlFYXBisqC6sp5yiplkVFhWCMaYP1Zmt+/AxAvjy0Xn0A4I3x7OAAAAA=</LicenseData>
+					<ScriptData>H4sIAAAAAAAEAOVbW3OjNhR+70z/g1483p0JCRdhQ5r12PUlTSeN07ibvq4QomEWg4dLZ/ffV8I4IU4k2xhCtH0yuiCLT/rO0XcOXCxw7K/SCUrR4OefALhYl5O8QIvTb2mMWOvMJ4GbgLNNwy2K0ZKkJC7VXQaRg4JSxXqwe9rJj8KBdnH2vOJZr8vMdwc96CLTIX0Fmi5SNI1ABUGzr+i6qqrIIbZhOZtR8hvyOZ+VJ10Mt0jJ6vEpRjgtJlBcFfWzLMzLVy5rK5XKD6ltPbS+VTa2ynCrbJbwiOJ0oNL5st+ibhyFqR9mhNU/Xhdt8+TaX/r5LZvLouUqdEmYovxhaGu5WIbkCQUBLLoIFsPmAzMYPxD8FcyiGEwnswSkDygFKCYgCoPvAK1WgY+RExDg0R6jLI2WdIYYjP6hcwUoHzK5OCvG+t9C3FcFCD+iNhLBxeZXXAlhG5yz8ehajaPlKqDsLW6DQjQ1mdDUVEMAp2N6qq0iqBhII2v7Yts2KuwLtpBlQQ7EQ0wxy6jB893h62jzFss4aO/qdaOtvfO92+Ogqb4OX7U9bNSNqt6y0b2OcP7PzPICBaiAmtibLAjAkqAwAWEEVhE1v9+BnwCXeH5I3NwMpw+04l8UZKQRywtl2r1iW0EMjG3PshULIkuBOiaKQzxDIY5rWNAlqmUZnC3dCYrV8d1Ok7bClAltaWxF70ezFePAZyeu92Up+jLtXbGlUKHl9XGvp6i2hRWoGabiQJPaDOSZquH03B7mYDjo4HxtGrYTllRYC3c0h9H17k1bphOvLrKr2n74DCii9yWqH7a9NKn0VhW8eAKL4fZ55aKUuNWQk0tbCZnJwgAE4QfmM3wXzBcn4DJKI3B+z8rzxYSyFT8BVS9jtdplU6NA6kIT9yaAVVBEmt2eUxAjlp9zbuPIIwmLLKJgvmgGtQr6RrPeqStlhB3Rc2CUPpA45+vv2XIFGGWbdrBa7cqlRbo2DlbtgqTF49ubMVUufcGmywVtQQLqCMA4ysL0wyYMmZw+BSQ/gtECUFDnixnt4wIwu5v/AR57gr9/m95NQenWL/PFFxD4XwnodtiNnS6Y3wFO+69ZQkVhkgg7fQ5Sn+oUQjsJek1DWreK/YT2o5O+mYDxY8fN1dXkU7fz9Gyd7i+cM5nOOZNpvGDA6351R/C7gnZq0+K3bKpqV04tmqq3OIbptUun9gCbfvNT4HvlTN86ZpHnBMMoBSRk6UD3tBkoa9dSrUVDh9tRnyHHBBqHmsBDY6G6VOmovYKhhWdh4dBm9mHtuab2Ips6xsQ2MWb5Uq/2fCnbjGxNquVJpUo1iem+AYJHc4sD4CmP5qPJ7M/JTRncHTSXKpN0aH60GZrLpcqENDdszbFdw6Q0J+phNN8j1XkczaXSce+d5j9QImg7tdkMyeXSM0KSQwtDS9ecKiTflaU8iuKGVBronVPckEoFtZ+7NOQSOO2Gdwy5pM2OFwleMKtmsKQSKJWy4i/M3St+4Qhq1i5KmnwRSwwgD8HF9Ho6/gvcTW+vR+Pph0m0RH540p2Mz7sn3e7H1wP5T8r6UzlQzlmDcRbH9JHXQ1dbCKneiDvOQfMiasNnMA557vrg95Jrlzft7fE3cde1K5hGX85s2V3LpV7E7rppsKBUKsQSMdHGel/zHFWB0Oxxv6LjKL2d/mS4ITDHCO7CWSqBstOZPENizwz1i8+y1L18BZRKqlQ6UGr8c+Qxr1nCNj7/2ZSLb2v/Axz19JJqOwAA</ScriptData>
+					<ScriptVersion>1</ScriptVersion>
+					<ScriptGuid>5f325e66-0f32-11e7-ad92-02df4959daf1</ScriptGuid>
+					<ScriptFlags>1</ScriptFlags>
+					<Parameters></Parameters>
+				</Table>
+			</NewDataSet>
+			<ExtraDataField>
+				<NewDataSet>
+					<Table>
+						<ID>591</ID>
+						<Form>1</Form>
+						<Name>AUTO-Enable Automatic Actions</Name>
+						<Sort>0</Sort>
+						<NoBreak>0</NoBreak>
+						<FType>2</FType>
+						<Section>AUTO</Section>
+						<UnEditable>0</UnEditable>
+						<Collapsed>0</Collapsed>
+						<Fill>~Select Convert(Concat('Inherit Setting',CHAR(0),0) Using UTF8) UNION Select Convert(Concat('Enable Automatic Actions',CHAR(0),1) Using UTF8) UNION Select Convert(Concat('Disable Automatic Actions',CHAR(0),999) Using UTF8)|Automatic Actions Policy|2</Fill>
+						<LtGuid>b5f090a4-3a1e-11e4-999a-22000ac8a884</LtGuid>
+						<IsPassword>false</IsPassword>
+						<IsEncrypted>false</IsEncrypted>
+						<IsHidden>false</IsHidden>
+						<IsRestricted>false</IsRestricted>
+						<ViewPermissions></ViewPermissions>
+						<EditPermissions></EditPermissions>
+					</Table>
+				</NewDataSet>
+			</ExtraDataField>
+			<ExtraDataField>
+				<NewDataSet>
+					<Table>
+						<ID>664</ID>
+						<Form>2</Form>
+						<Name>AUTO-Enable Automatic Actions</Name>
+						<Sort>0</Sort>
+						<NoBreak>0</NoBreak>
+						<FType>2</FType>
+						<Section>AUTO</Section>
+						<UnEditable>0</UnEditable>
+						<Collapsed>0</Collapsed>
+						<Fill>~Select Convert(Concat('Inherit Setting',CHAR(0),0) Using UTF8) UNION Select Convert(Concat('Enable Automatic Actions',CHAR(0),1) Using UTF8) UNION Select Convert(Concat('Disable Automatic Actions',CHAR(0),999) Using UTF8)|Automatic Actions Policy|2</Fill>
+						<LtGuid>e3cc9f89-84a8-42ce-bef3-ebd384de0883</LtGuid>
+						<IsPassword>false</IsPassword>
+						<IsEncrypted>false</IsEncrypted>
+						<IsHidden>false</IsHidden>
+						<IsRestricted>false</IsRestricted>
+						<ViewPermissions></ViewPermissions>
+						<EditPermissions></EditPermissions>
+					</Table>
+				</NewDataSet>
+			</ExtraDataField>
+			<ExtraDataField>
+				<NewDataSet>
+					<Table>
+						<ID>665</ID>
+						<Form>3</Form>
+						<Name>AUTO-Enable Automatic Actions</Name>
+						<Sort>0</Sort>
+						<NoBreak>0</NoBreak>
+						<FType>2</FType>
+						<Section>AUTO</Section>
+						<UnEditable>0</UnEditable>
+						<Collapsed>0</Collapsed>
+						<Fill>~Select Convert(Concat('Inherit Setting',CHAR(0),0) Using UTF8) UNION Select Convert(Concat('Enable Automatic Actions',CHAR(0),1) Using UTF8) UNION Select Convert(Concat('Disable Automatic Actions',CHAR(0),999) Using UTF8)|Automatic Actions Policy|2</Fill>
+						<LtGuid>048f7c66-098c-4135-b458-4af503b6d6ce</LtGuid>
+						<IsPassword>false</IsPassword>
+						<IsEncrypted>false</IsEncrypted>
+						<IsHidden>false</IsHidden>
+						<IsRestricted>false</IsRestricted>
+						<ViewPermissions></ViewPermissions>
+						<EditPermissions></EditPermissions>
+					</Table>
+				</NewDataSet>
+			</ExtraDataField>
+			<ExtraDataField>
+				<NewDataSet>
+					<Table>
+						<ID>592</ID>
+						<Form>1</Form>
+						<Name>AUTO-Domain FQDN</Name>
+						<Sort>5</Sort>
+						<NoBreak>0</NoBreak>
+						<FType>0</FType>
+						<Section>AUTO</Section>
+						<UnEditable>0</UnEditable>
+						<Collapsed>0</Collapsed>
+						<Fill>Fully qualified domain name for the workstation to join - Use Location value if blank</Fill>
+						<LtGuid>2cce95cc-3a1f-11e4-999a-22000ac8a884</LtGuid>
+						<IsPassword>false</IsPassword>
+						<IsEncrypted>false</IsEncrypted>
+						<IsHidden>false</IsHidden>
+						<IsRestricted>false</IsRestricted>
+					</Table>
+				</NewDataSet>
+			</ExtraDataField>
+			<ExtraDataField>
+				<NewDataSet>
+					<Table>
+						<ID>599</ID>
+						<Form>2</Form>
+						<Name>AUTO-Domain FQDN</Name>
+						<Sort>5</Sort>
+						<NoBreak>0</NoBreak>
+						<FType>0</FType>
+						<Section>AUTO</Section>
+						<UnEditable>0</UnEditable>
+						<Collapsed>0</Collapsed>
+						<Fill>Fully qualified domain name for agents to join - Use Client value if blank</Fill>
+						<LtGuid>391b9d35-3ae0-11e4-999a-22000ac8a884</LtGuid>
+						<IsPassword>false</IsPassword>
+						<IsEncrypted>false</IsEncrypted>
+						<IsHidden>false</IsHidden>
+						<IsRestricted>false</IsRestricted>
+					</Table>
+				</NewDataSet>
+			</ExtraDataField>
+			<ExtraDataField>
+				<NewDataSet>
+					<Table>
+						<ID>600</ID>
+						<Form>3</Form>
+						<Name>AUTO-Domain FQDN</Name>
+						<Sort>5</Sort>
+						<NoBreak>0</NoBreak>
+						<FType>0</FType>
+						<Section>AUTO</Section>
+						<UnEditable>0</UnEditable>
+						<Collapsed>0</Collapsed>
+						<Fill>Fully qualified domain name for agents to join.</Fill>
+						<LtGuid>48c4821b-3ae0-11e4-999a-22000ac8a884</LtGuid>
+						<IsPassword>false</IsPassword>
+						<IsEncrypted>false</IsEncrypted>
+						<IsHidden>false</IsHidden>
+						<IsRestricted>false</IsRestricted>
+					</Table>
+				</NewDataSet>
+			</ExtraDataField>
+			<ExtraDataField>
+				<NewDataSet>
+					<Table>
+						<ID>614</ID>
+						<Form>1</Form>
+						<Name>POLICY - AD FQDN to Join</Name>
+						<Sort>5</Sort>
+						<NoBreak>0</NoBreak>
+						<FType>0</FType>
+						<Section>AUTO-Effective Policy</Section>
+						<UnEditable>1</UnEditable>
+						<Collapsed>0</Collapsed>
+						<Fill></Fill>
+						<LtGuid>9c271fb0-4456-11e4-a457-22000abe938b</LtGuid>
+						<IsPassword>false</IsPassword>
+						<IsEncrypted>false</IsEncrypted>
+						<IsHidden>false</IsHidden>
+						<IsRestricted>false</IsRestricted>
+					</Table>
+				</NewDataSet>
+			</ExtraDataField>
+		</PackedScript>
+		<ScriptFolder>
+			<NewDataSet>
+				<Table>
+					<FolderID>246</FolderID>
+					<ParentID>0</ParentID>
+					<Name>__Examples</Name>
+					<GUID>3a28e85b-3064-4911-98cf-fd641ca4bc2b</GUID>
+				</Table>
+			</NewDataSet>
+		</ScriptFolder>
+	</PackedScript>
+</LabTech_Expansion>

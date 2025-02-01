@@ -1,0 +1,52 @@
+﻿<LabTech_Expansion
+	Version="110.353"
+	Name="LabTech Search Expansion"
+	Type="Search">
+	<Search>
+		<NewDataSet>
+			<Table>
+				<SensID>855</SensID>
+				<Name>Automatic Domain Join Needed</Name>
+				<SQL>SELECT 
+   computers.computerid as `Computer Id`,
+   computers.name as `Computer Name`,
+   clients.name as `Client Name`,
+   computers.domain as `Computer Domain`,
+   computers.username as `Computer User`,
+   IFNULL(IFNULL(edfAssigned1.Value,edfDefault1.value),'') as `Computer - Extra Data Field - Effective Policy - POLICY - AD FQDN to Join`,
+   IFNULL(IFNULL(edfAssigned2.Value,edfDefault2.value),'0') as `Computer - Extra Data Field - AUTO - AUTO-Enable Domain Join`,
+   IFNULL(IFNULL(edfAssigned3.Value,edfDefault3.value),'') as `Computer - Extra Data Field - AUTO - AUTO-Enable Automatic Actions`,
+   IFNULL(IFNULL(edfAssigned4.Value,edfDefault4.value),'') as `Computer - Extra Data Field - AUTO - AUTO-Enable Automatic Actions`,
+   IFNULL(IFNULL(edfAssigned5.Value,edfDefault5.value),'') as `Computer - Location - Extra Data Field - AUTO - AUTO-Enable Automatic Actions`,
+   IFNULL(IFNULL(edfAssigned6.Value,edfDefault6.value),'') as `Computer - Location - Extra Data Field - AUTO - AUTO-Enable Automatic Actions`,
+   IFNULL(IFNULL(edfAssigned7.Value,edfDefault7.value),'') as `Computer - Client - Extra Data Field - AUTO - AUTO-Enable Automatic Actions`
+FROM Computers 
+LEFT JOIN inv_operatingsystem ON (Computers.ComputerId=inv_operatingsystem.ComputerId)
+LEFT JOIN Clients ON (Computers.ClientId=Clients.ClientId)
+LEFT JOIN Locations ON (Computers.LocationId=Locations.LocationID)
+LEFT JOIN ExtraFieldData edfAssigned1 ON (edfAssigned1.id=Computers.ComputerId and edfAssigned1.ExtraFieldId =(Select ExtraField.id FROM ExtraField WHERE LTGuid='9c271fb0-4456-11e4-a457-22000abe938b'))
+LEFT JOIN ExtraFieldData edfDefault1 ON (edfDefault1.id=0 and edfDefault1.ExtraFieldId =(Select ExtraField.id FROM ExtraField WHERE LTGuid='9c271fb0-4456-11e4-a457-22000abe938b'))
+LEFT JOIN ExtraFieldData edfAssigned2 ON (edfAssigned2.id=Computers.ComputerId and edfAssigned2.ExtraFieldId =(Select ExtraField.id FROM ExtraField WHERE LTGuid='e63092f3-3a1d-11e4-999a-22000ac8a884'))
+LEFT JOIN ExtraFieldData edfDefault2 ON (edfDefault2.id=0 and edfDefault2.ExtraFieldId =(Select ExtraField.id FROM ExtraField WHERE LTGuid='e63092f3-3a1d-11e4-999a-22000ac8a884'))
+LEFT JOIN ExtraFieldData edfAssigned3 ON (edfAssigned3.id=Computers.ComputerId and edfAssigned3.ExtraFieldId =(Select ExtraField.id FROM ExtraField WHERE LTGuid='b5f090a4-3a1e-11e4-999a-22000ac8a884'))
+LEFT JOIN ExtraFieldData edfDefault3 ON (edfDefault3.id=0 and edfDefault3.ExtraFieldId =(Select ExtraField.id FROM ExtraField WHERE LTGuid='b5f090a4-3a1e-11e4-999a-22000ac8a884'))
+LEFT JOIN ExtraFieldData edfAssigned4 ON (edfAssigned4.id=Computers.ComputerId and edfAssigned4.ExtraFieldId =(Select ExtraField.id FROM ExtraField WHERE LTGuid='b5f090a4-3a1e-11e4-999a-22000ac8a884'))
+LEFT JOIN ExtraFieldData edfDefault4 ON (edfDefault4.id=0 and edfDefault4.ExtraFieldId =(Select ExtraField.id FROM ExtraField WHERE LTGuid='b5f090a4-3a1e-11e4-999a-22000ac8a884'))
+LEFT JOIN ExtraFieldData edfAssigned5 ON (edfAssigned5.id=Locations.LocationId and edfAssigned5.ExtraFieldId =(Select ExtraField.id FROM ExtraField WHERE LTGuid='e3cc9f89-84a8-42ce-bef3-ebd384de0883'))
+LEFT JOIN ExtraFieldData edfDefault5 ON (edfDefault5.id=0 and edfDefault5.ExtraFieldId =(Select ExtraField.id FROM ExtraField WHERE LTGuid='e3cc9f89-84a8-42ce-bef3-ebd384de0883'))
+LEFT JOIN ExtraFieldData edfAssigned6 ON (edfAssigned6.id=Locations.LocationId and edfAssigned6.ExtraFieldId =(Select ExtraField.id FROM ExtraField WHERE LTGuid='e3cc9f89-84a8-42ce-bef3-ebd384de0883'))
+LEFT JOIN ExtraFieldData edfDefault6 ON (edfDefault6.id=0 and edfDefault6.ExtraFieldId =(Select ExtraField.id FROM ExtraField WHERE LTGuid='e3cc9f89-84a8-42ce-bef3-ebd384de0883'))
+LEFT JOIN ExtraFieldData edfAssigned7 ON (edfAssigned7.id=Clients.ClientId and edfAssigned7.ExtraFieldId =(Select ExtraField.id FROM ExtraField WHERE LTGuid='048f7c66-098c-4135-b458-4af503b6d6ce'))
+LEFT JOIN ExtraFieldData edfDefault7 ON (edfDefault7.id=0 and edfDefault7.ExtraFieldId =(Select ExtraField.id FROM ExtraField WHERE LTGuid='048f7c66-098c-4135-b458-4af503b6d6ce'))
+ WHERE 
+((((IFNULL(IFNULL(edfAssigned1.Value,edfDefault1.value),'') like '%.%') AND (IFNULL(IFNULL(edfAssigned2.Value,edfDefault2.value),'0')&lt;&gt;0) AND (((IFNULL(IFNULL(edfAssigned3.Value,edfDefault3.value),'') = '1') OR (((IFNULL(IFNULL(edfAssigned4.Value,edfDefault4.value),'') = '0') AND (((IFNULL(IFNULL(edfAssigned5.Value,edfDefault5.value),'') = '1') OR (((IFNULL(IFNULL(edfAssigned6.Value,edfDefault6.value),'') = '0') AND (IFNULL(IFNULL(edfAssigned7.Value,edfDefault7.value),'') = '1'))))))))))))
+</SQL>
+				<QueryType>4</QueryType>
+				<ListDATA>Related - Additional Fields|AUTO-Enable Automatic Actions (v_extradatacomputers)|=|1|=||=|^Related - Additional Fields|AUTO-Enable Domain Join (v_extradatacomputers)|=|1|=||=|^Related - Additional Fields|POLICY - AD FQDN to Join (v_extradatacomputers)|Like|%.%|=||=|^</ListDATA>
+				<FolderID>28</FolderID>
+				<GUID>d04d3988-4bb2-400d-976b-9768a5d6dc7b</GUID>
+				<SearchXML>&lt;LabTechAbstractSearch&gt;&lt;asn&gt;&lt;st&gt;AndNode&lt;/st&gt;&lt;cn&gt;&lt;asn&gt;&lt;st&gt;AndNode&lt;/st&gt;&lt;cn&gt;&lt;asn&gt;&lt;st&gt;ComparisonNode&lt;/st&gt;&lt;lon&gt;Computer.Extra Data Field.Effective Policy.POLICY - AD FQDN to Join&lt;/lon&gt;&lt;lok&gt;Computer.Edf.9c271fb0-4456-11e4-a457-22000abe938b&lt;/lok&gt;&lt;lmo&gt;TextLike&lt;/lmo&gt;&lt;dv&gt;%.%&lt;/dv&gt;&lt;dk&gt;%.%&lt;/dk&gt;&lt;/asn&gt;&lt;asn&gt;&lt;st&gt;ComparisonNode&lt;/st&gt;&lt;lon&gt;Computer.Extra Data Field.AUTO.AUTO-Enable Domain Join&lt;/lon&gt;&lt;lok&gt;Computer.Edf.e63092f3-3a1d-11e4-999a-22000ac8a884&lt;/lok&gt;&lt;lmo&gt;IsTrue&lt;/lmo&gt;&lt;dv&gt;NULL&lt;/dv&gt;&lt;dk&gt;NULL&lt;/dk&gt;&lt;/asn&gt;&lt;asn&gt;&lt;st&gt;OrNode&lt;/st&gt;&lt;cn&gt;&lt;asn&gt;&lt;st&gt;ComparisonNode&lt;/st&gt;&lt;lon&gt;Computer.Extra Data Field.AUTO.AUTO-Enable Automatic Actions&lt;/lon&gt;&lt;lok&gt;Computer.Edf.b5f090a4-3a1e-11e4-999a-22000ac8a884&lt;/lok&gt;&lt;lmo&gt;Equals&lt;/lmo&gt;&lt;dv&gt;Enable Automatic Actions&amp;#x0;1&lt;/dv&gt;&lt;dk&gt;Enable Automatic Actions&amp;#x0;1&lt;/dk&gt;&lt;/asn&gt;&lt;asn&gt;&lt;st&gt;AndNode&lt;/st&gt;&lt;cn&gt;&lt;asn&gt;&lt;st&gt;ComparisonNode&lt;/st&gt;&lt;lon&gt;Computer.Extra Data Field.AUTO.AUTO-Enable Automatic Actions&lt;/lon&gt;&lt;lok&gt;Computer.Edf.b5f090a4-3a1e-11e4-999a-22000ac8a884&lt;/lok&gt;&lt;lmo&gt;Equals&lt;/lmo&gt;&lt;dv&gt;Inherit Setting&amp;#x0;0&lt;/dv&gt;&lt;dk&gt;Inherit Setting&amp;#x0;0&lt;/dk&gt;&lt;/asn&gt;&lt;asn&gt;&lt;st&gt;OrNode&lt;/st&gt;&lt;cn&gt;&lt;asn&gt;&lt;st&gt;ComparisonNode&lt;/st&gt;&lt;lon&gt;Computer.Location.Extra Data Field.AUTO.AUTO-Enable Automatic Actions&lt;/lon&gt;&lt;lok&gt;Computer.Location.Edf.e3cc9f89-84a8-42ce-bef3-ebd384de0883&lt;/lok&gt;&lt;lmo&gt;Equals&lt;/lmo&gt;&lt;dv&gt;Enable Automatic Actions&amp;#x0;1&lt;/dv&gt;&lt;dk&gt;Enable Automatic Actions&amp;#x0;1&lt;/dk&gt;&lt;/asn&gt;&lt;asn&gt;&lt;st&gt;AndNode&lt;/st&gt;&lt;cn&gt;&lt;asn&gt;&lt;st&gt;ComparisonNode&lt;/st&gt;&lt;lon&gt;Computer.Location.Extra Data Field.AUTO.AUTO-Enable Automatic Actions&lt;/lon&gt;&lt;lok&gt;Computer.Location.Edf.e3cc9f89-84a8-42ce-bef3-ebd384de0883&lt;/lok&gt;&lt;lmo&gt;Equals&lt;/lmo&gt;&lt;dv&gt;Inherit Setting&amp;#x0;0&lt;/dv&gt;&lt;dk&gt;Inherit Setting&amp;#x0;0&lt;/dk&gt;&lt;/asn&gt;&lt;asn&gt;&lt;st&gt;ComparisonNode&lt;/st&gt;&lt;lon&gt;Computer.Client.Extra Data Field.AUTO.AUTO-Enable Automatic Actions&lt;/lon&gt;&lt;lok&gt;Computer.Client.Edf.048f7c66-098c-4135-b458-4af503b6d6ce&lt;/lok&gt;&lt;lmo&gt;Equals&lt;/lmo&gt;&lt;dv&gt;Enable Automatic Actions&amp;#x0;1&lt;/dv&gt;&lt;dk&gt;Enable Automatic Actions&amp;#x0;1&lt;/dk&gt;&lt;/asn&gt;&lt;/cn&gt;&lt;/asn&gt;&lt;/cn&gt;&lt;/asn&gt;&lt;/cn&gt;&lt;/asn&gt;&lt;/cn&gt;&lt;/asn&gt;&lt;/cn&gt;&lt;/asn&gt;&lt;/cn&gt;&lt;/asn&gt;&lt;/LabTechAbstractSearch&gt;</SearchXML>
+			</Table>
+		</NewDataSet>
+	</Search>
+</LabTech_Expansion>

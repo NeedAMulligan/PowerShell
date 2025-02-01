@@ -1,0 +1,9 @@
+It cleans user Temp folder
+
+It Empty Recycle Bin
+
+It removes windows Temp folder
+
+If you are using Lenovo Laptop Please uncomment the #1 and #2 options
+
+after removing it runs windows clean Manager to ensure everything is cleaned which we left. :)

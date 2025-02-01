@@ -1,0 +1,1 @@
+Converts encrypted Adobe product keys found in the registry to keys used to install.  Useful when refreshing a PC to find the key used to install the software on the old computer.

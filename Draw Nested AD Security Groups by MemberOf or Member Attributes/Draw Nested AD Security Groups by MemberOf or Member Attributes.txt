@@ -1,0 +1,7 @@
+Draw AD Security Group Nesting
+
+The Draw-ADSecurityGroupNesting cmdlet explores Group "memberOf" back-link or "member" attributes over one Domain or entire Forest, then generates a Graphviz or a 'tree' like Text file. The cmdlet is useful to:
+- view Nested Security Groups;
+- search Circular Nesting;
+- check Security Group Nesting Strategy (ie: G.U.DL.);
+- assess User Kerberos Token Size.

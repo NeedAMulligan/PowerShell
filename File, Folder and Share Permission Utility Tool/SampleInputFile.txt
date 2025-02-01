@@ -1,0 +1,6 @@
+ComputerName,FolderPath
+WertyGED02,C:\CorpData\CorpPolicies
+CorpSQL01,D:\DBFolder\Management
+FileSrv02,E:\ShareStuff\Users
+ServMIS,D:\Management\FinanceTeam
+WertyGED05,C:\OurData\ITGuys

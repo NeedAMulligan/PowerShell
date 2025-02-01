@@ -1,0 +1,5 @@
+This function will recursively enumerate members of a given group along with nesting level and parent group information. If there is a circular membership, it will be displayed in Comment column.
+
+It accepts input from pipeline and works well with get-adgroup. I personally use it with Format-Table or Export-Csv to get output in a tabular form.
+
+When used with an -indent switch, it will display only names, but in a more user-friendly way (sort of a tree view) 

@@ -1,0 +1,15 @@
+Generate a complete Bitlocker status of the machine in an object (Which can be resused logically integrated into powershell scripts). 
+
+Identify if the TPM is activated.
+Identify if the TPM is enabled.
+Identify it the TPM is owned.
+Identify if the TPM ownership is allowed.
+how to check the Identify if the current bitlocker encryption state.
+How to check the status of bitlocker encryption on a client.
+Get the current bitlocker protection status.
+Start the bitlocker drive encryption. (with Pin).
+Resume a bitlocker encryption that is in paused state.
+Return the current bitlocker encryption percentage of the drive.
+Return the bitlocker key protector id's of the machine.
+Possibility to return the current protector type(s).
+Possibility to return the current encryption method that is used.

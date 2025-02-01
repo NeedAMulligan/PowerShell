@@ -1,0 +1,6 @@
+ComputerName
+WertyGED02
+CorpSQL01
+FileSrv02
+ServMIS
+WertyGED05

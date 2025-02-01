@@ -1,0 +1,35 @@
+<#   
+================================================================================ 
+========= DownloadFiles.ps1 ======================================= 
+================================================================================ 
+ Name: DownloadFiles.ps1 
+ Purpose: Demonstrate how to download files from an Online URL using PowerShell.  
+ Description: Demonstrates downloading files from an Azure Storage container but same process works for any valid online URL. 
+ Author: Dan Stolts - dstolts$microsoft.com - http://ITProGuru.com 
+ Syntax/Execution: Copy portion of script you want to use and paste into PowerShell (or ISE)  
+ Disclaimer: Use at your own Risk!  See details at http://ITProGuru.com/privacy  
+ Limitations:  
+         * Must Run PowerShell (or ISE)  
+        * UAC may get in the way depending on your settings (See: http://ITProGuru.com/PS-UAC) 
+ ================================================================================ 
+#> 
+# Download some files that will be needed 
+Dir C:\_Data\SkyDrive.MS\TR21\Download\* 
+Del C:\_Data\SkyDrive.MS\TR21\Download\* 
+$Username = "" 
+$Password = "" 
+$Path = Get-Location 
+$WebClient = New-Object System.Net.WebClient 
+$WebClient.Credentials = New-Object System.Net.Networkcredential($Username, $Password) 
+Write-Host "Downloading" $Path -ForegroundColor Green 
+    $Url = "https://itcmaster.blob.core.windows.net/fy15q3/SQLProvisionScript.ps1" 
+    $Path = "C:\_Data\SkyDrive.MS\TR21\Download\SQLProvisionScript.ps1" 
+    $WebClient.DownloadFile( $url, $path ) 
+Write-Host "Downloading" $Path -ForegroundColor Green 
+    $Url = "https://itcmaster.blob.core.windows.net/fy15q3/ADProvisionScriptv2.ps1" 
+    $Path = "C:\_Data\SkyDrive.MS\TR21\Download\ADProvisionScriptv2.ps1" 
+    $WebClient.DownloadFile( $url, $path ) 
+Dir C:\_Data\SkyDrive.MS\TR21\Download\ 
+ 
+# video of Script https://channel9.msdn.com/Series/GuruPowerShell 
+# More scripts from Dan Stolts "ITProGuru" at http://ITProGuru.com/Scripts

@@ -1,0 +1,7 @@
+dir c:\shares\sales -recurse |
+
+Select Fullname,LastWriteTime,
+
+@{Name="Age";Expression={(Get-Date)-$_.LastWriteTime}},
+
+Group-Object Year | Sort Name 

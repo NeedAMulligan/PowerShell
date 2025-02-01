@@ -1,0 +1,1 @@
+This script searches for and attempts to uninstall a piece of software by product name. It queries the SCCM client's WMI class for the product, finds the uninstall string and executes the uninstall string.

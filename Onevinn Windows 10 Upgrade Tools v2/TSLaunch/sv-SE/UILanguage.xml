@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfLanguage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Language>
+    <Id>sv-SE</Id>
+    <btRun>Uppgradera nu</btRun>
+    <btPostpone>Schemalägg</btPostpone>
+    <btShowLater>Visa senare</btShowLater>
+    <btMinimize>Minimera</btMinimize>
+    <LinkText>Läs mer på intranätet >></LinkText>
+    <LinkUrl>http://hd.se</LinkUrl>
+    <lbInfo>%DAYSLEFT% Dagar kvar att uppgradera</lbInfo>
+
+    <lbTitle>Schemalägg uppgraderingen</lbTitle>
+    <rbManualText>Jag vill manuellt starta uppgraderingen nedanstående dag och tid.</rbManualText>
+    <rbAutoText>Jag vill att uppgraderingen startar automatiskt nedanstående dag och tid.&#xD;&#xA;(OBS! Här kommer du inte ha möjlighet att avbryta eller skjuta upp)</rbAutoText>
+    <tbExplain>Glöm inte att datorn måste befinna sig i ett företagsnät och vara igång under uppgraderingen.</tbExplain>
+    <btOK>OK</btOK>
+    <btCancel>Avbryt</btCancel>
+
+    <tbCountDownTitle>Uppgraderar om:</tbCountDownTitle>
+    <btAbortCountDown>Avbryt</btAbortCountDown>
+
+    <TrayIconText>En Windows uppgradering finns tillgänglig</TrayIconText>
+    <ToastTitle>Windows uppgradering</ToastTitle>
+    <ToastText>En Windows uppgradering finns tillgänglig, klicka här!</ToastText>
+  </Language>
+</ArrayOfLanguage>

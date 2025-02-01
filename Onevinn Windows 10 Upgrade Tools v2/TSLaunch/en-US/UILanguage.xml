@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfLanguage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Language>
+    <Id>en-US</Id>
+    <btRun>Upgrade now</btRun>
+    <btPostpone>Schedule...</btPostpone>
+    <btShowLater>Show later</btShowLater>
+    <btMinimize>Minimize</btMinimize>
+    <LinkText>Read more about it >></LinkText>
+    <LinkUrl>http://cnn.com</LinkUrl>
+    <lbInfo>%DAYSLEFT% days left to upgrade</lbInfo>
+
+    <lbTitle>Schedule the upgrade</lbTitle>
+    <rbManualText>I want to manually start the upgrade the following day and time.</rbManualText>
+    <rbAutoText>I want the upgrade to start automatically the following day and time.&#xD;&#xA;(Attention! Here you will not be able to cancel or postpone)</rbAutoText>
+    <tbExplain>Do not forget that your computer must be in a wired network and be on during the upgrade.</tbExplain>
+    <btOK>OK</btOK>
+    <btCancel>Cancel</btCancel>
+
+    <tbCountDownTitle>Upgrading in:</tbCountDownTitle>
+    <btAbortCountDown>Cancel</btAbortCountDown>
+
+    <TrayIconText>A Windows upgrade is available</TrayIconText>
+    <ToastTitle>Windows upgrade</ToastTitle>
+    <ToastText>A Windows upgrade is available, click here!</ToastText>
+  </Language>
+</ArrayOfLanguage>

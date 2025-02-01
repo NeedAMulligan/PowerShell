@@ -1,0 +1,44 @@
+Changelog:
+
+2018-10-28 - TSLaunch 2.3.18300.1:
+- Bugfix: PowerPoint slide-show not detected.
+- Bugfix: Exception when opening scheduler on "EndDate".
+- Added logging of UI restore from system tray and remaining days to upgrade.
+
+2018-10-28 - TSLaunch ConfigMgr extension 2.3.18301.1:
+- Bugfix: Computer list on "Specific computer" tab not updated on refresh.
+- All grids are now sorted in descending order on execution time.
+- Added possibility to clear status history for single computer and/or remove specific status entry (Right click).
+- Added console scripts to uninstall UPGBackground remotely.
+- Task sequence monitor is now considering exit code "3010" as success.
+
+2018-10-28 - UPGBackground 1.0.18301.1:
+- Stores the Debug password (encrypted) to registry making debug mode available also when TSManager is not running.
+
+2018-10-30 - TSLaunch ConfigMgr extension 2.3.18303.1:
+- Bugfix: Script feature not detected correctly
+
+2018-11-06 - TSLaunch 2.3.18310.1:
+ - Bugfix: Several minor adjustments in handling UPGBackground installation and logging.
+ - Bugfix: Improved behavior when upgrading existing deployment with a new TSLaunch.exe; just create a new, otherwise identical, package/program and replace the deployment, existing schedules will be preserved.
+
+2018-11-14 - TSLaunch 2.3.18313.1:
+ - Bugfix: Running Powerpoint presentation still not always detected.
+
+2018-10-14 - TSLaunch ConfigMgr extension 2.3.18317.1:
+ - Bugfix: Script feature not detected correctly on non en-US systems.
+
+2018-11-19 – TSLaunch 2.3.18321.1 
+- Added new config file key: making it possible to run a script when the TS is launched.
+
+2018-11-19 – UPGBackground 1.0.18321.1 
+- Added multi language support, add a prefix to the file name like “sv-SE_” or “fi-FI_”
+
+2018-11-28 - TSLaunch ConfigMgr extension 2.3.18325.1:
+- Added support for CM 1810, run upgrade "on top" of older version.
+
+2018-11-28 - TSLaunch 2.3.183326.1:
+- Preflight checks extended with pending reboot. CM Client induced reboot check cannot be turned off, the rest can:
+    <add key="CheckRebootComponentBasedServicing" value="True"/>
+    <add key="CheckRebootWindowsUpdate" value="True"/>
+    <add key="CheckRebootPendingFileRenameOperations" value="False"/>

@@ -1,0 +1,11 @@
+This PowerShell script is designed to identify all inactive computers in Active Directory and move them to a specific OU then disable the computer account. It will also set a description to say when the computer was account was disabled.
+
+ 
+
+The script can be customised with the source search OU, the desitnation OU, the period of inacitivy, and the description set.
+
+ 
+
+The script does rely on quest powershell tools which can be downloaded from the Quest website.
+
+ 

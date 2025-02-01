@@ -1,0 +1,5 @@
+Variables:
+
+%USERNAME%
+%COMPUTERNAME%
+%DAYSLEFT%

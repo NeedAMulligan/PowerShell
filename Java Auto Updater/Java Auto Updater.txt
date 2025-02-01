@@ -1,0 +1,37 @@
+This script is for automatically updating, deploying or removing Java (JRE).
+
+Please email any bugs found to:  kevin.denham@gmail.com
+
+The default options at the top will both download and update JRE to the latest public release.  Changing the Download and ModifyJRE values can allow the script to run in specialized host/client mode. 
+
+Script parameter examples:
+
+As a server only downloading JRE install files to a shared network location:
+
+JRE_Updater.vbs /Modify:0 /Logging:1 /FileStore:"\\Server\Share"
+
+As a client updating JRE from the same network share:
+
+JRE_Updater.vbs /Download:0 /Logging:1 /FileStore:"\\Server\Share"
+
+Standalone system deploying new JRE:
+
+JRE_Updater.vbs /x86:2 /x64:2 /Logging:1 
+
+Standalone system forcing JRE removal:
+
+JRE_Updater.vbs /Download:0 /x86:0 /x64:0 /Logging:1
+
+Standalone deployment, passing JRE install location parameters:
+
+JRE_Updater.vbs /x86:2 /x64:2 /Logging:1 /FileStore:"\\Server\Share" /switches32:"/s INSTALLDIR=D:\Program Files(x86)\Java\" /switches64:"/s INSTALLDIR=D:\Program Files\Java\"   
+
+Some things to keep in mind:
+
+The 2/13/16 update has introduced a lot of changes to allow command line parameters.  With that in mind I have not tested every parameter under every circumstance/environment.  The introduction of logging will hopefully assist in resolving any bugs that may be discovered, please use /logging:1 to enable.  Feel free to email or comment if you find any issues.
+
+Currently the script does not distinguish between versions such as 6, 7, 8.  It will always update to the most recent version.
+
+There has been interest shown in running the script as a scheduled task under the system user context.  Unfortunately, due to a longstanding bug in Java's installer.exe this will fail to install the x86 JRE on x64 systems.  I have removed support for running the script under the system user context until Oracle fixes the installer bug.
+
+It is viable to deploy the script via group policy and/or scheduled tasks for both downloading hosts and updating clients but instruction for doing is not included in this documentation.

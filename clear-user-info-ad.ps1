@@ -1,0 +1,1 @@
+set-aduser USERNAME -clear `manager',`homeDirectory',`homeDrive',`physicalDeliveryOfficeName',`telephoneNumber',`o',`postalcode',`st',`streetaddress',`title',`department',`l',`company',`c',`department'

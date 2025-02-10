@@ -18,9 +18,5 @@ Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*spotify*'} | Remove-Ap
 Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*tile*'} | Remove-AppxPackage
 Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*windowscommunicationsapps*'} | Remove-AppxPackage
 Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*xbox*'} | Remove-AppxPackage
-Get-AppxPackage *AD2F1837.HPQuickDrop* -AllUsers | Remove-AppxPackage 
-Get-AppxPackage *xbox* -AllUsers | Remove-AppxPackage
-Get-AppxPackage *tile* -AllUsers | Remove-AppxPackage
-Get-AppxPackage *AD2F1837.HPEasyClean* -AllUsers | Remove-AppxPackage 
-Get-AppxPackage *Microsoft.MicrosoftOfficeHub* -AllUsers | Remove-AppxPackage
-Get-AppxPackage *MicrosoftCorporationII.QuickAssist* -AllUsers | Remove-AppxPackage
+Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*Microsoft.MicrosoftOfficeHub*'} | Remove-AppxPackage
+Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*MicrosoftCorporationII.QuickAssist*'} | Remove-AppxPackage

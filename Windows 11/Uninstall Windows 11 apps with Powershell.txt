@@ -1,22 +1,36 @@
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*disney*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*MicrosoftCorporationII.MicrosoftFamily*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*MicrosoftTeams*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*Microsoft.BingNews*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*Microsoft.GamingApp*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*Microsoft.MixedReality.Portal*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*Microsoft.OutlookForWindows*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*Microsoft.PowerAutomateDesktop*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*Microsoft.Windows.Ai.Copilot.Provider*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*Microsoft.WindowsMaps*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*Microsoft.Windows.DevHome*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*Microsoft.XboxGamingOverlay*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*Microsoft.XboxIdentityProvider*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*onenote*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*OutlookForWindows*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*skypeapp*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*spotify*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*tile*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*windowscommunicationsapps*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*xbox*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*Microsoft.MicrosoftOfficeHub*'} | Remove-AppxPackage
-Get-AppxPackage -AllUsers | Where-Object {$_.Name -Like '*MicrosoftCorporationII.QuickAssist*'} | Remove-AppxPackage
+Get-AppxPackage -All *AD2F1837.HPEasyClean* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *AD2F1837.HPQuickDrop* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *bingfinance* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *DellInc.DellDigitalDelivery* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *DellInc.DellOptimizer* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *disney* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *journal* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *king.com.CandyCrushFriends* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *king.com.FarmHeroesSaga*| Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *mcafee* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.BingNews*| Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.BingWeather* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.GamingApp* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.GetHelp* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.Getstarted* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.MicrosoftOfficeHub* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.MicrosoftSolitaireCollection* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.MixedReality.Portal* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.PowerAutomateDesktop* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.Print3D* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.SkypeApp* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.Windows.DevHome* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *microsoft.windowscommunicationsapps* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.WindowsMaps* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.XboxApp* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.XboxGameOverlay* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.XboxGamingOverlay* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.XboxIdentityProvider* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.XboxOneSmartGlass* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.XboxSpeechToTextOverlay* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.ZuneMusic* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.ZuneVideo* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *MicrosoftCorporationII.MicrosoftFamily* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *MicrosoftCorporationII.QuickAssist* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *tile* | Remove-AppxPackage -AllUsers
+

@@ -4,10 +4,14 @@ Get-AppxPackage -All *bingfinance* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *DellInc.DellDigitalDelivery* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *DellInc.DellOptimizer* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *disney* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Feedback Hub* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Get Help* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Get Started* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *journal* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *king.com.CandyCrushFriends* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *king.com.FarmHeroesSaga*| Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *mcafee* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft Pay* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *Microsoft.BingNews*| Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *Microsoft.BingWeather* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *Microsoft.GamingApp* | Remove-AppxPackage -AllUsers
@@ -33,4 +37,5 @@ Get-AppxPackage -All *Microsoft.ZuneVideo* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *MicrosoftCorporationII.MicrosoftFamily* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *MicrosoftCorporationII.QuickAssist* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *tile* | Remove-AppxPackage -AllUsers
+
 

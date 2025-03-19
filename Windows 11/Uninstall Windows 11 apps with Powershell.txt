@@ -32,6 +32,7 @@ Get-AppxPackage -All *Microsoft.XboxGamingOverlay* | Remove-AppxPackage -AllUser
 Get-AppxPackage -All *Microsoft.XboxIdentityProvider* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *Microsoft.XboxOneSmartGlass* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *Microsoft.XboxSpeechToTextOverlay* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *Microsoft.Xbox.TCUI* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *Microsoft.ZuneMusic* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *Microsoft.ZuneVideo* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *MicrosoftCorporationII.MicrosoftFamily* | Remove-AppxPackage -AllUsers

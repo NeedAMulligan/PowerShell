@@ -1,0 +1,18 @@
+Install-Module -Name AIPService
+ 
+Import-Module AIPService
+ 
+(Get-Module AIPService -ListAvailable).Version
+ 
+Get-Command -Module AIPService
+ 
+Connect-AipService
+
+Get-AipService
+ 
+Enable-AipService
+ 
+Set-AipServiceOnboardingControlPolicy -UseRmsUserLicense $True
+ 
+Disconnect-AipService
+  

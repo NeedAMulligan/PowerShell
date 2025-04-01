@@ -1,0 +1,1 @@
+$arr = @(); get-sposite | %{ $user = get-spouser -site $_ -loginName "user.name@company.com"; if($user.Groups.Count -gt 0){ $arr += new-object psobject -property @{site=$_.url; groups=$user.Groups} } }; $arr

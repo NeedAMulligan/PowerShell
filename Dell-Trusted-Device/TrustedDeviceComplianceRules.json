@@ -1,0 +1,873 @@
+{
+    "Rules": [
+        {
+            "SettingName": "BvResultAvailable",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "BIOS Verification result is not available",
+                    "Description": "Inspect the endpoint to determine why the BIOS Verification result is not available."
+                }
+            ]
+        },
+        {
+            "SettingName": "BvResultSourceIsValid",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "BIOS Verification result failed integrity validation",
+                    "Description": "Inspect the endpoint to determine why the BIOS Verification result did not pass integrity validation."
+                }
+            ]
+        },
+        {
+            "SettingName": "BvResult",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "BIOS Verification failed",
+                    "Description": "Inspect the endpoint to determine why the BIOS failed verification."
+                }
+            ]
+        },
+        {
+            "SettingName": "BvResultAgeInDays",
+            "Operator": "LessThan",
+            "DataType": "Int64",
+            "Operand": 7,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "BIOS Verification result is too old",
+                    "Description": "Inspect the endpoint to determine why the BIOS Verification result has not been refreshed recently."
+                }
+            ]
+        },
+        {
+            "SettingName": "BvResultErrorCode",
+            "Operator": "IsEquals",
+            "DataType": "Int64",
+            "Operand": 0,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "BIOS Verification returned an error",
+                    "Description": "Inspect the endpoint to determine why BIOS Verification processing returned an error."
+                }
+            ]
+        },
+        {
+            "SettingName": "BvResultIndicatesTampering",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "BIOS Verification result indicates tampering",
+                    "Description": "Inspect the endpoint, network, and server to determine where the tampering occurred."
+                }
+            ]
+        },
+        {
+            "SettingName": "BvResultBiosIsInvalid",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "BIOS is invalid",
+                    "Description": "Inspect the endpoint to determine why the BIOS was determined to be invalid."
+                }
+            ]
+        },
+        {
+            "SettingName": "BvResultBiosNotSupported",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "BIOS is not supported",
+                    "Description": "Inspect the endpoint to determine why the BIOS is not supported."
+                }
+            ]
+        },
+        {
+            "SettingName": "BvResultClientErrorOccurred",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "BIOS Verification processing failed on the endpoint",
+                    "Description": "Inspect the endpoint to determine why BIOS Verification processing failed."
+                }
+            ]
+        },
+        {
+            "SettingName": "BvResultServerErrorOccurred",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "BIOS Verification processing failed on the server",
+                    "Description": "Inspect the network and server to determine why BIOS Verification processing failed."
+                }
+            ]
+        },
+        {
+            "SettingName": "MEvResultAvailable",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Intel ME Verification result is not available",
+                    "Description": "Inspect the endpoint to determine why the Intel ME Verification result is not available."
+                }
+            ]
+        },
+        {
+            "SettingName": "MEvResultSourceIsValid",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Intel ME Verification result failed integrity validation",
+                    "Description": "Inspect the endpoint to determine why the Intel ME Verification result did not pass integrity validation."
+                }
+            ]
+        },
+        {
+            "SettingName": "MEvResult",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Intel ME Verification failed",
+                    "Description": "Inspect the endpoint to determine why the Intel ME failed verification."
+                }
+            ]
+        },
+        {
+            "SettingName": "MEvResultAgeInDays",
+            "Operator": "LessThan",
+            "DataType": "Int64",
+            "Operand": 7,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Intel ME Verification result is too old",
+                    "Description": "Inspect the endpoint to determine why the Intel ME Verification result has not been refreshed recently."
+                }
+            ]
+        },
+        {
+            "SettingName": "MEvResultErrorCode",
+            "Operator": "IsEquals",
+            "DataType": "Int64",
+            "Operand": 0,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Intel ME Verification returned an error",
+                    "Description": "Inspect the endpoint to determine why the Intel ME Verification processing returned an error."
+                }
+            ]
+        },
+        {
+            "SettingName": "MEvResultIndicatesTampering",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Intel ME Verification result indicates tampering",
+                    "Description": "Inspect the endpoint, network, and server to determine where the tampering occurred."
+                }
+            ]
+        },
+        {
+            "SettingName": "MEvResultMEIsInvalid",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Intel ME is invalid",
+                    "Description": "Inspect the endpoint to determine why the Intel ME was determined to be invalid."
+                }
+            ]
+        },
+        {
+            "SettingName": "MEvResultMENotSupported",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Intel ME is not supported",
+                    "Description": "Inspect the endpoint to determine why the Intel ME is not supported."
+                }
+            ]
+        },
+        {
+            "SettingName": "MEvResultClientErrorOccurred",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Intel ME Verification processing failed on the endpoint",
+                    "Description": "Inspect the endpoint to determine why the Intel ME Verification processing failed."
+                }
+            ]
+        },
+        {
+            "SettingName": "MEvResultServerErrorOccurred",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Intel ME Verification processing failed on the server",
+                    "Description": "Inspect the network and server to determine why the Intel ME Verification processing failed."
+                }
+            ]
+        },
+		{
+            "SettingName": "SCvResultAvailable",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Secured Component Verification result is not available",
+                    "Description": "Inspect the endpoint to determine why the Secured Component Verification result is not available."
+                }
+            ]
+        },
+        {
+            "SettingName": "SCvResultSourceIsValid",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Secured Component Verification result failed integrity validation",
+                    "Description": "Inspect the endpoint to determine why the Secured Component Verification result did not pass integrity validation."
+                }
+            ]
+        },
+        {
+            "SettingName": "SCvResult",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Secured Component Verification failed",
+                    "Description": "Inspect the endpoint to determine why the Secured Component failed verification."
+                }
+            ]
+        },
+        {
+            "SettingName": "SCvResultAgeInDays",
+            "Operator": "LessThan",
+            "DataType": "Int64",
+            "Operand": 7,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Secured Component Verification result is too old",
+                    "Description": "Inspect the endpoint to determine why the Secured Component Verification result has not been refreshed recently."
+                }
+            ]
+        },
+        {
+            "SettingName": "SCvResultErrorCode",
+            "Operator": "IsEquals",
+            "DataType": "Int64",
+            "Operand": 0,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Secured Component Verification returned an error",
+                    "Description": "Inspect the endpoint to determine why Secured Component Verification processing returned an error."
+                }
+            ]
+        },
+        {
+            "SettingName": "SCvResultIndicatesTampering",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Secured Component Verification result indicates tampering",
+                    "Description": "Inspect the endpoint, network, and server to determine where the tampering occurred."
+                }
+            ]
+        },
+        {
+            "SettingName": "SCvResultIsInvalid",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Secured Component Verification is invalid",
+                    "Description": "Inspect the endpoint to determine why the Secured Component Verification was determined to be invalid."
+                }
+            ]
+        },
+        {
+            "SettingName": "SCvResultNotSupported",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Secured Component Verification is not supported",
+                    "Description": "Inspect the endpoint to determine why the Secured Component Verification is not supported."
+                }
+            ]
+        },
+        {
+            "SettingName": "SCvResultClientErrorOccurred",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Secured Component Verification processing failed on the endpoint",
+                    "Description": "Inspect the endpoint to determine why Secured Component Verification processing failed."
+                }
+            ]
+        },
+        {
+            "SettingName": "SCvResultServerErrorOccurred",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Secured Component Verification processing failed on the server",
+                    "Description": "Inspect the network and server to determine why Secured Component Verification processing failed."
+                }
+            ]
+        },
+        {
+            "SettingName": "CveResultAvailable",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "CVE Correlation result is not available",
+                    "Description": "Inspect the endpoint to determine why the CVE Correlation result is not available."
+                }
+            ]
+        },
+        {
+            "SettingName": "CveResultSourceIsValid",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "CVE Correlation result failed integrity validation",
+                    "Description": "Inspect the endpoint to determine why the CVE Correlation result did not pass integrity validation."
+                }
+            ]
+        },
+        {
+            "SettingName": "CveResult",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "CVE Correlation failed",
+                    "Description": "Inspect the endpoint to determine why the CVE Correlation failed."
+                }
+            ]
+        },
+        {
+            "SettingName": "CveResultAgeInDays",
+            "Operator": "LessThan",
+            "DataType": "Int64",
+            "Operand": 7,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "CVE Correlation result is too old",
+                    "Description": "Inspect the endpoint to determine why the CVE Correlation result has not been refreshed recently."
+                }
+            ]
+        },
+        {
+            "SettingName": "CveResultErrorCode",
+            "Operator": "IsEquals",
+            "DataType": "Int64",
+            "Operand": 0,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "CVE Correlation returned an error",
+                    "Description": "Inspect the endpoint to determine why the CVE Correlation processing returned an error."
+                }
+            ]
+        },
+        {
+            "SettingName": "CveResultIndicatesTampering",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "CVE Correlation result indicates tampering",
+                    "Description": "Inspect the endpoint, network, and server to determine where the tampering occurred."
+                }
+            ]
+        },
+        {
+            "SettingName": "CveResultBiosIsInvalid",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "BIOS is invalid",
+                    "Description": "Inspect the endpoint to determine why the BIOS was determined to be invalid."
+                }
+            ]
+        },
+        {
+            "SettingName": "CveResultBiosNotSupported",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "BIOS is not supported",
+                    "Description": "Inspect the endpoint to determine why the BIOS is not supported."
+                }
+            ]
+        },
+        {
+            "SettingName": "CveResultClientErrorOccurred",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "CVE Correlation processing failed on the endpoint",
+                    "Description": "Inspect the endpoint to determine why the CVE Correlation processing failed."
+                }
+            ]
+        },
+        {
+            "SettingName": "CveResultServerErrorOccurred",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "CVE Correlation processing failed on the server",
+                    "Description": "Inspect the network and server to determine why the CVE Correlation processing failed."
+                }
+            ]
+        },
+        {
+            "SettingName": "CveHighestScore",
+            "Operator": "IsEquals",
+            "DataType": "Double",
+            "Operand": 0.0,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "CVE Correlation detected vulnerabilities",
+                    "Description": "Inspect the endpoint to review highest severity vulnerabilities detected by CVE Correlation."
+                }
+            ]
+        },
+        {
+            "SettingName": "CveCriticalCount",
+            "Operator": "IsEquals",
+            "DataType": "Int64",
+            "Operand": 0,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "CVE Correlation detected critical severity vulnerabilities",
+                    "Description": "Inspect the endpoint to review critical severity vulnerabilities detected by CVE Correlation."
+                }
+            ]
+        },
+        {
+            "SettingName": "CveHighCount",
+            "Operator": "IsEquals",
+            "DataType": "Int64",
+            "Operand": 0,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "CVE Correlation detected high severity vulnerabilities",
+                    "Description": "Inspect the endpoint to review high severity vulnerabilities detected by CVE Correlation."
+                }
+            ]
+        },
+        {
+            "SettingName": "CveMediumCount",
+            "Operator": "IsEquals",
+            "DataType": "Int64",
+            "Operand": 0,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "CVE Correlation detected medium severity vulnerabilities",
+                    "Description": "Inspect the endpoint to review medium severity vulnerabilities detected by CVE Correlation."
+                }
+            ]
+        },
+        {
+            "SettingName": "CveLowCount",
+            "Operator": "IsEquals",
+            "DataType": "Int64",
+            "Operand": 0,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "CVE Correlation detected low severity vulnerabilities",
+                    "Description": "Inspect the endpoint to review low severity vulnerabilities detected by CVE Correlation."
+                }
+            ]
+        },
+        {
+            "SettingName": "BiosOutOfDate",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "CVE Correlation detected out of date BIOS",
+                    "Description": "Inspect the endpoint to review available BIOS updates detected by CVE Correlation."
+                }
+            ]
+        },
+        {
+            "SettingName": "FirmwareOutOfDate",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": false,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "CVE Correlation detected out of date firmware",
+                    "Description": "Inspect the endpoint to review available firmware updates detected by CVE Correlation."
+                }
+            ]
+        },
+		{
+            "SettingName": "DtdProductInstalled",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Dell Trusted Device is not installed",
+                    "Description": "Dell Trusted Device needs to be installed from the given URL."
+                }
+            ]
+        },
+        {
+            "SettingName": "DtdServiceInstalled",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Dell Trusted Device service is not installed",
+                    "Description": "The Dell Trusted Device service must be installed."
+                }
+            ]
+        },
+        {
+            "SettingName": "DtdServiceIsSignatureValid",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Dell Trusted Device service has an invalid signature",
+                    "Description": "The Dell Trusted Device service must have a valid Dell signature."
+                }
+            ]
+        },
+        {
+            "SettingName": "DtdServiceIsRunning",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Dell Trusted Device service is not running",
+                    "Description": "The Dell Trusted Device service must be running."
+                }
+            ]
+        },
+        {
+            "SettingName": "DtdServiceIsAutoStart",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Dell Trusted Device service start type is incorrect",
+                    "Description": "The Dell Trusted Device service must be set to start automatically."
+                }
+            ]
+        },
+        {
+            "SettingName": "DtdServiceIsStoppable",
+            "Operator": "IsEquals",
+            "DataType": "String",
+            "Operand": "no",
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Dell Trusted Device installed in test mode",
+                    "Description": "Dell Trusted Device should be re-installed without the TESTING flag"
+                }
+            ]
+        },
+        {
+            "SettingName": "DtdSelDriverInstalled",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Secure Event Log driver is not installed",
+                    "Description": "The Secure Event Log driver must be installed"
+                }
+            ]
+        },
+        {
+            "SettingName": "DtdSelDriverSignatureIsValid",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Secure Event Log driver has an invalid signature",
+                    "Description": "The Secure Event Log driver must have a valid Dell signature."
+                }
+            ]
+        },
+        {
+            "SettingName": "DtdSelDriverIsRunning",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Secure Event Log driver is not running",
+                    "Description": "The Secure Event Log driver must be running."
+                }
+            ]
+        },
+        {
+            "SettingName": "DtdSelDriverIsSystemStart",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Secure Event Log driver start type is incorrect",
+                    "Description": "The Secure Event Log driver must be set to start when the system starts."
+                }
+            ]
+        },
+        {
+            "SettingName": "DellBvDriverInstalled",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "BIOS Verification driver is not installed",
+                    "Description": "The BIOS Verification driver must be installed."
+                }
+            ]
+        },
+        {
+            "SettingName": "DellBvDriverSignatureIsValid",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "BIOS Verification driver has an invalid signature",
+                    "Description": "The BIOS Verification driver must have a valid Dell signature."
+                }
+            ]
+        },
+        {
+            "SettingName": "DellBvDriverIsDemandStart",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "BIOS Verification driver start type is incorrect",
+                    "Description": "The BIOS Verification driver must be set to start manually."
+                }
+            ]
+        },
+		{
+            "SettingName": "ScriptExecutedWithoutExceptions",
+            "Operator": "IsEquals",
+            "DataType": "Boolean",
+            "Operand": true,
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Exception Occurred",
+                    "Description": "An exception occurred during script execution that prevented accurate analysis."
+                }
+            ]
+        },
+        {
+            "SettingName": "ScriptExceptionMessage",
+            "Operator": "IsEquals",
+            "DataType": "String",
+            "Operand": "",
+            "MoreInfoUrl": "https://www.dell.com/support/home/en-us/product-support/product/trusted-device/docs",
+            "RemediationStrings": [
+                {
+                    "Language": "En_Us",
+                    "Title": "Exception Message Found",
+                    "Description": "An exception message was reported by the script during execution."
+                }
+            ]
+        }
+		
+    ]
+}

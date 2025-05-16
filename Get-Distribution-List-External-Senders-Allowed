@@ -1,0 +1,1 @@
+Get-DistributionGroup -ResultSize unlimited | select Name, primarysmtpaddress, RequireSenderAuthenticationEnabled | Export-Csv -Path c:\temp\roger-groups_sender.csv -notypeinformation

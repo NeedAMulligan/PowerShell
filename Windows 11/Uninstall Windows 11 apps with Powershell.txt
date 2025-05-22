@@ -37,6 +37,7 @@ Get-AppxPackage -All *Microsoft.ZuneMusic* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *Microsoft.ZuneVideo* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *MicrosoftCorporationII.MicrosoftFamily* | Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *MicrosoftCorporationII.QuickAssist* | Remove-AppxPackage -AllUsers
+Get-AppxPackage -All *MicrosoftTeams*| Remove-AppxPackage -AllUsers
 Get-AppxPackage -All *tile* | Remove-AppxPackage -AllUsers
 
 

@@ -1,0 +1,80 @@
+# Requires PowerShell 5.1 or later due to the -Force parameter on Export-Csv
+
+$outputPath = "C:\temp\users-180-days.csv"
+$daysInactivity = 180
+$currentDate = Get-Date
+
+# Ensure the output directory exists
+If (-not (Test-Path (Split-Path $outputPath))) {
+    New-Item -Path (Split-Path $outputPath) -ItemType Directory -Force
+}
+
+# Define an array to store information about processed users
+$processedUsers = @()
+
+Write-Host "Searching for enabled users inactive for more than $daysInactivity days..."
+
+# Get all enabled domain users
+Get-ADUser -Filter {Enabled -eq $true} -Properties LastLogonDate, SamAccountName, DistinguishedName | ForEach-Object {
+    $user = $_
+
+    # Calculate last logon date. LastLogonDate is a constructed attribute based on LastLogonTimestamp
+    # which is replicated, so it's generally good enough for this purpose.
+    if ($user.LastLogonDate) {
+        $lastLogon = $user.LastLogonDate
+    } else {
+        # If LastLogonDate is null (e.g., brand new user), treat as active for this script's purpose
+        Write-Warning "User $($user.SamAccountName) does not have a LastLogonDate. Skipping for inactivity check."
+        return # Skip to the next user
+    }
+
+    $inactivityPeriod = ($currentDate - $lastLogon).Days
+
+    if ($inactivityPeriod -gt $daysInactivity) {
+        Write-Host "Processing user: $($user.SamAccountName) (Last Logon: $($lastLogon)) - Inactive for $($inactivityPeriod) days."
+
+        # Check if the user is currently enabled (double-check, though initial filter should handle this)
+        if ($user.Enabled -eq $true) {
+            $disabledDate = $currentDate.ToString("yyyy-MM-dd")
+
+            Try {
+                # Disable the user account
+                Disable-ADAccount -Identity $user.DistinguishedName -ErrorAction Stop
+                Write-Host "Disabled user account: $($user.SamAccountName)"
+
+                # Add user details to the array for CSV export
+                $processedUsers += [PSCustomObject]@{
+                    SamAccountName = $user.SamAccountName
+                    DistinguishedName = $user.DistinguishedName
+                    LastLogonDate = $lastLogon
+                    DaysInactive = $inactivityPeriod
+                    Status = "Disabled"
+                    DisabledDate = $disabledDate
+                }
+            }
+            Catch {
+                Write-Warning "Failed to disable user $($user.SamAccountName): $($_.Exception.Message)"
+                $processedUsers += [PSCustomObject]@{
+                    SamAccountName = $user.SamAccountName
+                    DistinguishedName = $user.DistinguishedName
+                    LastLogonDate = $lastLogon
+                    DaysInactive = $inactivityPeriod
+                    Status = "Error (See console for details)"
+                    DisabledDate = ""
+                }
+            }
+        } else {
+            Write-Host "User $($user.SamAccountName) is already disabled. Skipping."
+        }
+    }
+}
+
+# Export the collected data to a CSV file
+if ($processedUsers.Count -gt 0) {
+    $processedUsers | Export-Csv -Path $outputPath -NoTypeInformation -Force
+    Write-Host "Successfully exported processed users to: $outputPath"
+} else {
+    Write-Host "No inactive users found to process."
+}
+
+Write-Host "Script execution complete."

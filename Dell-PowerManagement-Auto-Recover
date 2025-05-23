@@ -1,0 +1,3 @@
+Install-Module DellBIOSProvider
+Import-Module DellBIOSProvider
+Set-Item -Path DellSmbios:\PowerManagement\AcPwrRcvry -Value On

@@ -31,6 +31,7 @@ $AppsToRemove = @(
     "*McAfee*", # Using wildcard for potential McAfee UWP apps. Note: Traditional McAfee is not AppX.
     "Microsoft.MicrosoftPaymentExperience", # For Microsoft Pay
     "Microsoft.BingNews",
+    "Microsoft.Copilot",
     "Microsoft.BingWeather",
     "Microsoft.GamingApp", # Xbox App
     "Microsoft.GetHelp",

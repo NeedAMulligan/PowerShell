@@ -1,0 +1,1 @@
+ Get-Mailbox -ResultSize Unlimited | Set-Mailbox -MaxReceiveSize 150MB -MaxSendSize 150MB

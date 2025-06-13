@@ -1,0 +1,5 @@
+Connect-ExchangeOnline
+New-RetentionPolicyTag -Name "5YearArchive" -Type All -RetentionAction MoveToArchive -AgeLimitForRetention 1825
+New-RetentionPolicy -Name "5YearArchivePolicy" -RetentionPolicyTagLinks "5YearArchive"
+Get-Mailbox -RecipientTypeDetails UserMailbox | Set-Mailbox -RetentionPolicy "5YearArchivePolicy"
+Get-Mailbox -RecipientTypeDetails UserMailbox | Start-ManagedFolderAssistant

@@ -1,0 +1,79 @@
+# --- Configuration ---
+$csvFilePath = "C:\temp\SharedMailboxGUIDs_20250613_152822.csv" # !!! IMPORTANT: Update this with the actual path to your CSV file !!!
+# --- End Configuration ---
+
+Write-Host "Attempting to read shared mailbox data from: $csvFilePath"
+
+if (-not (Test-Path $csvFilePath)) {
+    Write-Error "Error: The specified CSV file '$csvFilePath' does not exist."
+    Write-Warning "Please ensure the path is correct and the file is accessible."
+    exit
+}
+
+try {
+    # Import the CSV file
+    $sharedMailboxes = Import-Csv -Path $csvFilePath
+
+    if ($sharedMailboxes.Count -eq 0) {
+        Write-Warning "The CSV file '$csvFilePath' was empty or contained no data."
+        Write-Host "No mailboxes to process with Start-ManagedFolderAssistant."
+        exit
+    }
+
+    Write-Host "Found $($sharedMailboxes.Count) shared mailboxes in the CSV."
+    Write-Host "Starting to process each shared mailbox with Start-ManagedFolderAssistant..."
+    Write-Host "This may take some time depending on the number of mailboxes."
+
+    $processedCount = 0
+    $failedCount = 0
+    $successfulMailboxes = @()
+    $failedMailboxes = @()
+
+    foreach ($mailbox in $sharedMailboxes) {
+        $displayName = $mailbox.DisplayName
+        $exchangeGuid = $mailbox.ExchangeGUID
+
+        if ([string]::IsNullOrEmpty($exchangeGuid)) {
+            Write-Warning "Skipping mailbox '$displayName' (PrimarySmtpAddress: $($mailbox.PrimarySmtpAddress)) as ExchangeGUID is missing from CSV."
+            $failedCount++
+            $failedMailboxes += "$displayName (GUID missing)"
+            continue
+        }
+
+        Write-Host "Processing mailbox: '$displayName' (GUID: '$exchangeGuid')"
+        try {
+            # Run Start-ManagedFolderAssistant using the ExchangeGUID
+            Start-ManagedFolderAssistant -Identity $exchangeGuid -ErrorAction Stop
+            Write-Host "Successfully initiated Managed Folder Assistant for '$displayName'."
+            $processedCount++
+            $successfulMailboxes += $displayName
+        }
+        catch {
+            Write-Error "Failed to process mailbox '$displayName' (GUID: '$exchangeGuid'). Error: $($_.Exception.Message)"
+            $failedCount++
+            $failedMailboxes += "$displayName (Error: $($_.Exception.Message))"
+        }
+    }
+
+    Write-Host "`n--- Processing Summary ---"
+    Write-Host "Total mailboxes in CSV: $($sharedMailboxes.Count)"
+    Write-Host "Successfully processed: $processedCount"
+    Write-Host "Failed to process: $failedCount"
+
+    if ($successfulMailboxes.Count -gt 0) {
+        Write-Host "`nSuccessfully Processed Mailboxes:"
+        $successfulMailboxes | Sort-Object | Format-Table -AutoSize
+    }
+
+    if ($failedMailboxes.Count -gt 0) {
+        Write-Host "`nFailed Mailboxes:" -ForegroundColor Red
+        $failedMailboxes | Sort-Object | Format-Table -AutoSize
+    }
+
+    Write-Host "`nScript execution complete."
+
+}
+catch {
+    Write-Error "An unexpected error occurred during script execution: $($_.Exception.Message)"
+    Write-Warning "Please ensure you are connected to Exchange Online PowerShell."
+}

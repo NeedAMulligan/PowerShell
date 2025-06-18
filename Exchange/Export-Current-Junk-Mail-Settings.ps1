@@ -1,0 +1,1 @@
+Get-Mailbox -ResultSize Unlimited | Get-MailboxJunkEmailConfiguration | Select-Object Identity, ContactsTrusted, Enabled, TrustedSendersAndDomains, BlockedSendersAndDomains | Export-Csv -Path "C:\Temp\MailboxJunkEmailConfig.csv" -NoTypeInformation

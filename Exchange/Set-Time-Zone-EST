@@ -1,0 +1,1 @@
+Get-Mailbox -ResultSize Unlimited | Set-MailboxRegionalConfiguration -TimeZone "Eastern Standard Time"

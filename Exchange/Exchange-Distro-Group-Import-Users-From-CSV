@@ -1,0 +1,79 @@
+# --- Configuration ---
+$DistributionGroup = "DistroGroup@yourcompany.com" # Replace with the actual name or primary SMTP address of your distribution group
+$CSVFilePath = "C:\Users\path-to-file.csv" # Replace with the actual path to your CSV file
+$UserIdentifierColumn = "EmailAddress" # Replace with the exact column header from your CSV that contains the user identifier (e.g., UserPrincipalName, PrimarySmtpAddress)
+
+# --- Script ---
+
+# Connect to Exchange Online
+Write-Host "Connecting to Exchange Online. You may be prompted for credentials..."
+try {
+    Connect-ExchangeOnline -ShowBanner:$false -ErrorAction Stop
+    Write-Host "Successfully connected to Exchange Online."
+}
+catch {
+    Write-Error "Failed to connect to Exchange Online. Please ensure you have the ExchangeOnlineManagement module installed and sufficient permissions. Error: $($_.Exception.Message)"
+    Exit
+}
+
+# Check if the distribution group exists
+try {
+    $Group = Get-DistributionGroup -Identity $DistributionGroup -ErrorAction Stop
+}
+catch {
+    Write-Error "Distribution group '$DistributionGroup' not found in Exchange Online. Please check the name or primary SMTP address."
+    Disconnect-ExchangeOnline
+    Exit
+}
+
+# Check if the CSV file exists
+if (-not (Test-Path $CSVFilePath)) {
+    Write-Error "CSV file '$CSVFilePath' not found. Please check the path."
+    Disconnect-ExchangeOnline
+    Exit
+}
+
+# Import users from CSV
+$Users = Import-Csv -Path $CSVFilePath
+
+if ($Users.Count -eq 0) {
+    Write-Warning "No users found in the CSV file. Exiting."
+    Disconnect-ExchangeOnline
+    Exit
+}
+
+Write-Host "Processing users from '$CSVFilePath' to add to '$DistributionGroup'..."
+
+foreach ($User in $Users) {
+    $UserIdentifier = $User.$UserIdentifierColumn
+
+    if ([string]::IsNullOrEmpty($UserIdentifier)) {
+        Write-Warning "Skipping an empty user identifier in the CSV. Please check your CSV file."
+        continue
+    }
+
+    try {
+        # Get the Mailbox or MailUser object from Exchange Online
+        # We need to determine if it's a mailbox, mail user, or mail contact
+        $Recipient = Get-Recipient -Identity $UserIdentifier -ErrorAction Stop
+
+        # Check if the recipient is already a member of the group
+        # Get-DistributionGroupMember is the way to check members in EXO
+        $GroupMembers = Get-DistributionGroupMember -Identity $Group.Identity -ResultSize Unlimited | Select-Object -ExpandProperty PrimarySmtpAddress
+
+        if ($GroupMembers -contains $Recipient.PrimarySmtpAddress) {
+            Write-Host "User '$UserIdentifier' is already a member of '$DistributionGroup'. Skipping."
+        }
+        else {
+            # Add the user to the distribution group
+            Add-DistributionGroupMember -Identity $Group.Identity -Member $Recipient.Identity -ErrorAction Stop
+            Write-Host "Successfully added '$UserIdentifier' to '$DistributionGroup'."
+        }
+    }
+    catch {
+        Write-Warning "Could not add user '$UserIdentifier'. Error: $($_.Exception.Message)"
+    }
+}
+
+Write-Host "Script completed. Disconnecting from Exchange Online."
+Disconnect-ExchangeOnline

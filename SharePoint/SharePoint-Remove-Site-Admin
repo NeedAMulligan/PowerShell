@@ -1,0 +1,67 @@
+#Variables for Admin Center
+$AdminCenterURL = "https://yoursite.com" # <--- Replace with your SharePoint Admin Center URL
+$UserToRemove = "user.name@yoursite.com" # <--- Specify the User Principal Name (UPN) of the site admin to remove
+$CSVPath = "C:\Temp\SiteOwners_AfterRemoval.csv" # Path to export the updated list of site owners
+
+#Get Credentials to connect
+$Cred = Get-Credential
+
+#Connect to SharePoint Online
+Connect-SPOService -url $AdminCenterURL -Credential $Cred
+
+#Get all Site Collections
+$Sites = Get-SPOSite -Limit ALL
+
+$SiteOwners = @() # To store updated site owner information for export
+
+Write-Host "Starting removal of '$UserToRemove' as a Site Collection Administrator from all sites..."
+
+# Iterate through each site collection
+$Sites | ForEach-Object {
+    $currentSiteURL = $_.URL
+    $currentSiteTitle = $_.Title
+
+    Write-Host "Processing site: $($currentSiteURL)"
+
+    Try {
+        # Get all site collection administrators for the current site
+        $SiteAdmins = Get-SPOUser -Site $currentSiteURL -Limit ALL | Where-Object {$_.IsSiteAdmin -eq $True}
+
+        # Check if the user to remove is among the site administrators
+        $UserIsSiteAdmin = $SiteAdmins | Where-Object {$_.LoginName -eq $UserToRemove}
+
+        If ($UserIsSiteAdmin) {
+            Write-Host "  Found '$UserToRemove' as a Site Collection Administrator on '$currentSiteURL'. Attempting to remove..."
+            # Remove the user as a Site Collection Administrator
+            Set-SPOUser -Site $currentSiteURL -LoginName $UserToRemove -IsSiteAdmin $false
+            Write-Host "  Successfully removed '$UserToRemove' from Site Collection Administrators on '$currentSiteURL'."
+        } Else {
+            Write-Host "  '$UserToRemove' is not a Site Collection Administrator on '$currentSiteURL'."
+        }
+
+        # After potential removal, re-evaluate owners for the CSV export
+        # Note: Get-SPOSite always returns the primary owner in the .Owner property.
+        # This part of the script will simply re-collect the primary owner for the CSV.
+        # If the user was the primary owner and you intend to change that, this script
+        # specifically targets *additional* site collection admin roles.
+        $UpdatedSite = Get-SPOSite -Identity $currentSiteURL # Get updated site info
+
+        # Collect Data for the report
+        $SiteOwners += New-Object PSObject -Property @{
+            'Site Title' = $UpdatedSite.Title
+            'URL' = $UpdatedSite.Url
+            'Primary Owner' = $UpdatedSite.Owner # This will be the primary owner
+            'Current Site Admins (excluding primary if removed by this script)' = ($SiteAdmins | Where-Object {$_.LoginName -ne $UserToRemove}).LoginName -join "; "
+        }
+
+    } Catch {
+        Write-Host "  Error processing site $($currentSiteURL): $($_.Exception.Message)" -ForegroundColor Red
+    }
+}
+
+Write-Host "Site admin removal process completed."
+
+# Export Site Owners report to CSV
+$SiteOwners | Export-Csv -path $CSVPath -NoTypeInformation
+
+Write-Host "Report exported to: $CSVPath"

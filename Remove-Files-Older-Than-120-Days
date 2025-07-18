@@ -1,0 +1,47 @@
+# Define the path to your NAS share
+$nasPath = "\\path-to-your-share\" # IMPORTANT: Replace with the actual path to your video files
+
+# Define the age threshold in days
+$ageThresholdDays = 120
+
+# Calculate the cutoff date
+$cutoffDate = (Get-Date).AddDays(-$ageThresholdDays)
+
+# Log file path (optional, but highly recommended for monitoring)
+$logFilePath = "C:\Logs\DeleteOldVideos.log" # IMPORTANT: Choose a suitable location for your logs
+
+# Create log directory if it doesn't exist
+$logDirectory = Split-Path -Path $logFilePath -Parent
+if (-not (Test-Path -Path $logDirectory)) {
+    New-Item -ItemType Directory -Path $logDirectory -Force | Out-Null
+}
+
+Add-Content -Path $logFilePath -Value ("`n--- Script started: {0} ---" -f (Get-Date))
+
+try {
+    # Get all video files (you might need to adjust the filter based on your file extensions)
+    # Common video extensions: .mp4, .mov, .avi, .mkv, .wmv, .flv
+    $filesToDelete = Get-ChildItem -Path $nasPath -Recurse -File | Where-Object {
+        ($_.Extension -match "\.mp4$|\.mov$|\.avi$|\.mkv$|\.wmv$|\.flv$") -and ($_.LastWriteTime -lt $cutoffDate)
+    }
+
+    if ($filesToDelete.Count -eq 0) {
+        Add-Content -Path $logFilePath -Value "No files found older than $ageThresholdDays days."
+    } else {
+        Add-Content -Path $logFilePath -Value "Found $($filesToDelete.Count) files to delete older than $ageThresholdDays days:"
+        foreach ($file in $filesToDelete) {
+            try {
+                Remove-Item -LiteralPath $file.FullName -Force -Confirm:$false
+                Add-Content -Path $logFilePath -Value "  Deleted: $($file.FullName)"
+            } catch {
+                Add-Content -Path $logFilePath -Value "  ERROR deleting $($file.FullName): $($_.Exception.Message)"
+            }
+        }
+        Add-Content -Path $logFilePath -Value "Deletion process complete."
+    }
+
+} catch {
+    Add-Content -Path $logFilePath -Value "An error occurred during script execution: $($_.Exception.Message)"
+}
+
+Add-Content -Path $logFilePath -Value ("--- Script finished: {0} ---" -f (Get-Date))

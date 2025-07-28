@@ -1,0 +1,6 @@
+Connect-ExchangeOnline
+Get-Mailbox -SoftDeletedMailbox | Select-Object Name,ExchangeGuid
+# You will be prompted to enter your Microsoft 365 admin credentials. Identify the soft-deleted shared mailbox.#
+# This command lists all soft-deleted mailboxes, including shared mailboxes. Note the ExchangeGuid of the shared mailbox you want to restore. restore the shared mailbox.#
+Undo-SoftDeletedMailbox -SoftDeletedObject <SharedMailboxEmailAddress>
+# Note: This method works for soft-deleted mailboxes, which are typically retained for 30 days by default. If the shared mailbox has been permanently deleted (beyond the retention period), it cannot be recovered using this method. In such cases, a backup solution would be required if one was in place.#

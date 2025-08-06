@@ -1,0 +1,1 @@
+Install-Module -Name PowerShellGet -Force -AllowClobber

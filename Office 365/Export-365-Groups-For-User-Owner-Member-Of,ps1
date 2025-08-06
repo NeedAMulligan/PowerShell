@@ -1,0 +1,132 @@
+<#
+.SYNOPSIS
+    Exports a list of Microsoft 365 Groups a user is a member or owner of.
+
+.DESCRIPTION
+    This script connects to Microsoft Graph, prompts for a User Principal Name (UPN),
+    then retrieves all Microsoft 365 Groups where the specified user is either a member
+    or an owner. The results are exported to a CSV file in the C:\temp directory
+    with a dynamic filename based on the user's name and a timestamp.
+
+.NOTES
+    Author: Your Name/AI Assistant
+    Date: 2025-08-06
+    Version: 1.0
+
+.EXAMPLE
+    To run the script:
+    1.  Save the code as a .ps1 file (e.g., Get-365Groups.ps1).
+    2.  Open PowerShell as an Administrator.
+    3.  Navigate to the directory where you saved the script.
+    4.  Run: .\Get-365Groups.ps1
+    5.  When prompted, enter the User Principal Name (UPN) of the user
+        (e.g., john.doe@contoso.com).
+
+.REQUIREMENTS
+    -   Microsoft Graph PowerShell module. If not installed, uncomment the
+        'Install-Module Microsoft.Graph' line below.
+    -   Permissions: Group.Read.All, User.Read.All for the connecting account.
+#>
+
+# Requires the Microsoft Graph PowerShell module. If not installed, uncomment the line below to install it.
+# Install-Module Microsoft.Graph -Scope AllUsers
+
+# Connect to Microsoft Graph. Ensure you have the necessary permissions (e.g., Group.Read.All, User.Read.All).
+Connect-MgGraph -Scopes "Group.Read.All", "User.Read.All"
+
+# Prompt for the User Principal Name (UPN)
+$userPrincipalName = Read-Host -Prompt "Enter the User Principal Name (UPN) of the user"
+
+# Get the user's object
+try {
+    $user = Get-MgUser -UserId $userPrincipalName
+    if (-not $user) {
+        Write-Error "User with UPN '$userPrincipalName' not found."
+        exit
+    }
+}
+catch {
+    Write-Error "An error occurred while retrieving the user: $_"
+    exit
+}
+
+# Define the export path and dynamic filename
+$exportPath = "C:\temp"
+if (-not (Test-Path -Path $exportPath)) {
+    New-Item -ItemType Directory -Path $exportPath | Out-Null
+}
+$timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+$fileName = "365Groups_for_$(($userPrincipalName -split '@')[0])_$timestamp.csv"
+$fullPath = Join-Path -Path $exportPath -ChildPath $fileName
+
+# Get the groups the user is a member of
+try {
+    Write-Host "Retrieving groups where the user is a member..."
+    $memberGroups = Get-MgUserMemberOf -UserId $user.Id -ConsistencyLevel eventual -All | Where-Object { $_.AdditionalProperties['@odata.type'] -eq '#microsoft.graph.group' }
+}
+catch {
+    Write-Error "An error occurred while retrieving member groups: $_"
+    exit
+}
+
+# Get the groups the user is an owner of
+try {
+    Write-Host "Retrieving groups where the user is an owner..."
+    $ownedGroups = Get-MgUserOwnedObject -UserId $user.Id -ConsistencyLevel eventual -All | Where-Object { $_.AdditionalProperties['@odata.type'] -eq '#microsoft.graph.group' }
+}
+catch {
+    Write-Error "An error occurred while retrieving owned groups: $_"
+    exit
+}
+
+# Create a custom object for each group with its details and the user's role
+$results = @()
+
+# Process member groups
+foreach ($group in $memberGroups) {
+    $results += [PSCustomObject]@{
+        GroupName          = $group.DisplayName
+        GroupId            = $group.Id
+        GroupMail          = $group.Mail
+        UserRole           = "Member"
+        CreatedDateTime    = $group.CreatedDateTime
+        Description        = $group.Description
+    }
+}
+
+# Process owned groups and add them to the results, avoiding duplicates
+foreach ($group in $ownedGroups) {
+    if (-not ($results.GroupId -contains $group.Id)) {
+        $results += [PSCustomObject]@{
+            GroupName          = $group.DisplayName
+            GroupId            = $group.Id
+            GroupMail          = $group.Mail
+            UserRole           = "Owner"
+            CreatedDateTime    = $group.CreatedDateTime
+            Description        = $group.Description
+        }
+    } else {
+        # If the user is already listed as a member, update the role to 'Owner, Member'
+        $existingGroup = $results | Where-Object { $_.GroupId -eq $group.Id }
+        if ($existingGroup) {
+            $existingGroup.UserRole = "Owner, Member"
+        }
+    }
+}
+
+# Check if any groups were found
+if ($results.Count -eq 0) {
+    Write-Host "No Microsoft 365 Groups found for '$userPrincipalName'."
+} else {
+    # Export the results to a CSV file
+    try {
+        $results | Export-Csv -Path $fullPath -NoTypeInformation -Force
+        Write-Host "Successfully exported the list of groups to '$fullPath'."
+    }
+    catch {
+        Write-Error "An error occurred while exporting the CSV file: $_"
+    }
+}
+
+# Disconnect from Microsoft Graph
+Disconnect-MgGraph

@@ -52,14 +52,14 @@ catch {
     $installFailed = $true
 }
 
-# Fix: Loop through and install/update each module
+# Fix: Loop through and install/update each module without -AcceptLicense
 foreach ($module in $modulesToInstall) {
     Write-Host "Checking for module: $module..."
 
     if (Get-InstalledModule -Name $module -ErrorAction SilentlyContinue) {
         Write-Host "Module '$module' is already installed. Checking for updates..."
         try {
-            Update-Module -Name $module -Force -AcceptLicense -Confirm:$false -ErrorAction Stop
+            Update-Module -Name $module -Force -Confirm:$false -ErrorAction Stop
             Write-Host "Successfully updated module '$module'."
         }
         catch {
@@ -70,7 +70,8 @@ foreach ($module in $modulesToInstall) {
     else {
         Write-Host "Module '$module' not found. Installing..."
         try {
-            Install-Module -Name $module -Scope AllUsers -Force -AcceptLicense -AllowClobber -Confirm:$false -ErrorAction Stop
+            # Removed -AcceptLicense from the Install-Module command
+            Install-Module -Name $module -Scope AllUsers -Force -AllowClobber -Confirm:$false -ErrorAction Stop
             Write-Host "Successfully installed module '$module'."
         }
         catch {

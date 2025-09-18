@@ -1,0 +1,14 @@
+#Parameters
+$CertificateName = "PowerShell Code Signing"
+ 
+#Create a Self-Signed SSL certificate - valid for 10 years
+$Certificate = New-SelfSignedCertificate -CertStoreLocation Cert:\CurrentUser\My -Subject "CN=$CertificateName" -KeySpec Signature -Type CodeSigningCert -NotAfter (Get-Date).AddYears(10)
+ 
+#Export the Certificate to "Documents" Folder in your computer
+$CertificatePath = [Environment]::GetFolderPath("MyDocuments")+"\$CertificateName.cer"
+Export-Certificate -Cert $Certificate -FilePath $CertificatePath
+ 
+#Add Certificate to the "Trusted Root Store"
+Get-Item $CertificatePath | Import-Certificate -CertStoreLocation "Cert:\LocalMachine\Root"
+  
+Write-host "Certificate Thumbprint:" $Certificate.Thumbprint

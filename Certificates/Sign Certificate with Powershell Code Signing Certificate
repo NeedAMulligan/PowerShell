@@ -1,0 +1,9 @@
+#Set Parameters
+$CertificateThumbprint = "GET-THUMBPRINT-FROM-CREATE-POWERSHELL-CODE-SIGNING-SCRIPT-OUTPUT"
+$ScriptPath = "C:\LOCATION\TO\FILE"
+ 
+#Get the Certificate from Cert Store
+$CodeSignCert = Get-ChildItem -Path Cert:\CurrentUser\My | Where-Object {$_.Thumbprint -eq $CertificateThumbprint}
+ 
+#Sign the PS1 file
+Set-AuthenticodeSignature -FilePath $ScriptPath -Certificate $CodeSignCert

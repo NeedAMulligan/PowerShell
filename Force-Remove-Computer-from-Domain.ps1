@@ -1,0 +1,1 @@
+Remove-Computer -UnjoinDomaincredential domain.com\administrator -PassThru -Verbose -Restart

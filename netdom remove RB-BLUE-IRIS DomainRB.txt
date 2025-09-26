@@ -1,1 +1,0 @@
-netdom remove RB-BLUE-IRIS /Domain:RBDLAW.COM /UserD:lcadmn2024 /PasswordD:* /Force

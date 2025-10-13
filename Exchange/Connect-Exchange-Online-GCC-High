@@ -1,0 +1,8 @@
+#Connect to GCC High Environment
+Connect-ExchangeOnline -UserPrincipalName <YourAdminAccount> -ExchangeEnvironmentName O365USGovGCCHigh
+
+#Run a test to verify connection
+Get-Mailbox
+#If no errors than you can proceed
+#disconnect from session
+Disconnect-ExchangeOnline -Confirm:$false

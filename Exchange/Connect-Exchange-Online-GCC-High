@@ -1,8 +1,10 @@
-#Connect to GCC High Environment
+# Set the execution policy to allow scripts to run:
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process
+# Connect to GCC High Environment
 Connect-ExchangeOnline -UserPrincipalName <YourAdminAccount> -ExchangeEnvironmentName O365USGovGCCHigh
 
-#Run a test to verify connection
+# Run a test to verify connection
 Get-Mailbox
-#If no errors than you can proceed
-#disconnect from session
+# If no errors than you can proceed
+# disconnect from session
 Disconnect-ExchangeOnline -Confirm:$false

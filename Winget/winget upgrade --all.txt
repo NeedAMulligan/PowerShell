@@ -1,1 +1,1 @@
-winget upgrade --all --silent --accept-package-agreements --accept-source-agreements
+winget upgrade --all --accept-source-agreements

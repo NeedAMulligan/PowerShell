@@ -1,0 +1,1 @@
+Get-CalendarProcessing -Identity TysonsVisitingOffice6054@reesbroome.com | fl AutomateProcessing, AllowConflicts, BookingWindowInDay, MaximumDurationInMinutes, RemoveOldMeetingMessages, DeleteSubject, ForwardRequestsToDelegates

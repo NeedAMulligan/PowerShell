@@ -17,9 +17,9 @@ $EXIT_SET_FAIL  = 1003
 $EXIT_PERM_FAIL = 1005
 
 # --- Variables ---
-$SPOAdminUrl = "https://REPLACEME-admin.sharepoint.com"
+$SPOAdminUrl = "https://REPLACEME-admin.sharepoint.com" # <--- UPDATE THIS
 $LogPath     = "C:\temp"
-$ScriptName  = "Disable-SPOShortcuts-Full"
+$ScriptName  = "Disable-SPOShortcuts-Final"
 $Timestamp   = Get-Date -Format "yyyyMMdd_HHmmss"
 $LogFile     = "$LogPath\$($ScriptName)_$($Timestamp).log"
 
@@ -47,11 +47,11 @@ Write-AdminLog "Starting Script: $ScriptName"
 
 # Check for Admin Privileges
 if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-    Write-AdminLog "CRITICAL: This script must be run as an Administrator." -Level Error
+    Write-AdminLog "CRITICAL: This script must be run as an Administrator (Elevated)." -Level Error
     Read-Host "Press Enter to exit"; exit $EXIT_PERM_FAIL
 }
 
-# Set Execution Policy for the current process
+# Set Execution Policy for the current process only
 Write-AdminLog "Setting Execution Policy to RemoteSigned for this session..."
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force
 
@@ -84,9 +84,14 @@ try {
 try {
     Write-AdminLog "Disabling 'Add Shortcut to OneDrive' at Tenant Level..."
     Set-SPOTenant -DisableAddShortcutsToOneDrive $true -Confirm:$false
+    
+    # Verification Step
+    Start-Sleep -Seconds 2
     $Verify = Get-SPOTenant | Select-Object -ExpandProperty DisableAddShortcutsToOneDrive
     if ($Verify -eq $true) { 
         Write-AdminLog "VERIFIED: Tenant setting is now DISABLED." -Level Success 
+    } else {
+        Write-AdminLog "WARNING: Setting was sent but verification returned FALSE. Please check Tenant settings manually." -Level Warning
     }
 } catch {
     Write-AdminLog "Failed to update tenant setting: $($_.Exception.Message)" -Level Error
@@ -94,7 +99,7 @@ try {
 }
 
 # 5. Post-Change Audit
-Write-AdminLog "Scanning for existing shortcuts in Site Collections..."
+Write-AdminLog "Scanning for sites with existing shortcut data..."
 try {
     $AllSites = Get-SPOSite -Limit All
     $ShortcutReport = @()
@@ -110,7 +115,7 @@ try {
     if ($ShortcutReport.Count -gt 0) {
         $ReportFile = "$LogPath\Shortcut_Audit_$Timestamp.txt"
         $ShortcutReport | Out-File $ReportFile
-        Write-AdminLog "Audit list exported to $ReportFile" -Level Info
+        Write-AdminLog "Audit list of $($ShortcutReport.Count) sites exported to $ReportFile" -Level Info
     } else {
         Write-AdminLog "No existing shortcuts detected in scanned sites." -Level Success
     }
@@ -118,7 +123,7 @@ try {
     Write-AdminLog "Audit scan failed or timed out. $($_.Exception.Message)" -Level Error
 }
 
-Write-AdminLog "Script Task Completed. Log: $LogFile"
+Write-AdminLog "Script Task Completed. Main Log: $LogFile"
 Write-Host ""
 Read-Host "Process complete. Press Enter to close this window"
 exit $EXIT_SUCCESS

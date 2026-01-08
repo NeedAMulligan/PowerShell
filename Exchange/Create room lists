@@ -1,0 +1,86 @@
+Room lists are special distribution groups that contain only room mailboxes. Room mailboxes are useful for organizing conference rooms by building.
+
+Use Exchange Online PowerShell to create a room list
+ Tip
+
+You can create room lists in Exchange Online PowerShell only. You can't create room lists in the EAC.
+
+To create a room list, use the following syntax:
+
+PowerShell
+New-DistributionGroup -Name <Name> -RoomList [-Alias <Alias>] [-DisplayName "<DisplayName>"] [-PrimarySmtpAddress <EmailAddress>]
+This example creates a room list with the Name value Building 32 Conference Rooms. Because we aren't using the Alias, DisplayName, or PrimarySmtpAddress parameters, the Name value results in the following default values for those parameters:
+
+DisplayName: Building 32 Conference Rooms.
+Alias: Building32ConferenceRooms
+PrimarySmtpAddress: Building32ConferenceRooms@Mcontoso.com
+PowerShell
+New-DistributionGroup -Name "Building 32 Conference Rooms" -RoomList
+For detailed syntax and parameter information, see New-DistributionGroup.
+
+Use Exchange Online PowerShell to add rooms to room lists
+ Tip
+
+You can add room mailboxes to room lists in the EAC or in PowerShell. For EAC instructions, see Use the EAC to modify distribution groups.
+
+To add room mailboxes to a room list, use the following syntax:
+
+PowerShell
+Add-DistributionGroupMember -Identity <RoomListIdentity> -Member <RoomMailboxIdentity>
+This example adds conference room 3223 to the building 32 room list.
+
+PowerShell
+Add-DistributionGroupMember -Identity "Building 32 Conference Rooms" -Member confroom3223@contoso.com
+For detailed syntax and parameter information, see Add-DistributionGroupMember.
+
+Use Exchange Online PowerShell to convert a distribution group to a room list
+ Tip
+
+You can convert distribution groups to room lists in Exchange Online PowerShell only. You can't convert distribution groups to room lists in the EAC.
+
+If you previously created regular distribution groups that contain room mailboxes, you can convert them to room lists by using the following syntax:
+
+PowerShell
+Set-DistributionGroup -Identity <GroupIdentity> -RoomList
+This example converts the specified distribution group to a room list.
+
+PowerShell
+Set-DistributionGroup -Identity "Building 34 Conference Rooms" -RoomList
+For detailed syntax and parameter information, see Set-DistributionGroup.
+
+How do you know you successfully created, updated, or converted a room list?
+To verify you successfully created, updated, or converted a room list, do any of the following steps:
+
+In Exchange Online PowerShell, run the following commands to return all room lists and their members:
+
+PowerShell
+$RL = Get-DistributionGroup -ResultSize Unlimited -RecipientTypeDetails RoomList
+
+$RL | foreach {Get-DistributionGroup -Identity $_.Identity | Format-Table Name,DisplayName,PrimarySmtpAddress; Get-DistributionGroupMember -Identity $_.Identity}
+In Exchange Online PowerShell, replace <RoomListIdentity> with the Name, Alias, or Email address of the room list, and then run the following commands to verify the details of the room list and the room list members:
+
+PowerShell
+Get-DistributionGroup -Identity <RoomListIdentity> | Format-List
+
+Get-DistributionGroupMember -Identity <RoomListIdentity>
+Appendix: Common booking and delegation scenarios
+This section describes common booking and delegation scenarios for resource mailboxes, and the required settings to achieve them using the Set-CalendarProcessing cmdlet:
+
+Default Booking: By default, anyone can book resources. The bookings are automatically accepted if the resource is available.
+AutomateProcessing: AutoAccept
+AllBookInPolicy: True
+Delegate Approval: Users can request meetings, but a delegate needs to approve the requests.
+AutomateProcessing: AutoAccept
+ForwardRequestsToDelegates: True
+AllBookInPolicy: False
+AllRequestInPolicy: True
+ResourceDelegates: {users or groups}
+Scoped Auto-Approval: Specified users are auto-approved when booking the resource. Other users can't book the resource (the request is automatically denied).
+AutomateProcessing: AutoAccept
+ForwardRequestsToDelegates: False
+AllBookInPolicy: False
+AllRequestInPolicy: False
+BookInPolicy: {users or groups}
+ Note
+
+Don't use nested groups for group values in resource mailbox settings. Only non-nested groups work for group values in resource mailbox settings.

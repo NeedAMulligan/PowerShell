@@ -1,0 +1,4 @@
+Stop-Service -Name wuauserv, cryptSvc, bits, msiserver -Force
+Rename-Item -Path "C:\Windows\SoftwareDistribution" -NewName "SoftwareDistribution.old" -Force
+Rename-Item -Path "C:\Windows\System32\catroot2" -NewName "catroot2.old" -Force
+Start-Service -Name wuauserv, cryptSvc, bits, msiserver

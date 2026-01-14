@@ -1,0 +1,65 @@
+# =========================================================================================
+# Script: Optimize-SystemIntegrity.ps1
+# Description: Runs SFC and conditionally runs DISM Repair-WindowsImage if issues found.
+# Exit Codes:
+# 0    = Success (No corruption found or corruption fixed)
+# 1001 = Prerequisite Missing (Not running as SYSTEM/Admin)
+# 1002 = SFC Failed to execute
+# 1003 = DISM Failed to execute
+# =========================================================================================
+
+$ErrorActionPreference = "Stop"
+
+# Define Exit Codes
+$EXIT_SUCCESS = 0
+$EXIT_ERR_PRIVS = 1001
+$EXIT_ERR_SFC = 1002
+$EXIT_ERR_DISM = 1003
+
+# Setup Logging
+$LogDir = "C:\temp"
+if (-not (Test-Path $LogDir)) { New-Item -Path $LogDir -ItemType Directory -Force | Out-Null }
+$Timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+$LogFile = Join-Path $LogDir "SystemRepair_$($Timestamp).log"
+
+function Write-Log {
+    param([string]$Message)
+    $Stamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    "[$Stamp] $Message" | Out-File -FilePath $LogFile -Append
+}
+
+Write-Log "Starting System Integrity Check."
+
+# 1. Check Privileges
+if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Log "ERROR: Script not running with elevated privileges."
+    exit $EXIT_ERR_PRIVS
+}
+
+# 2. Run SFC /SCANNOW
+Write-Log "Executing sfc /scannow..."
+$sfcProcess = Start-Process sfc.exe -ArgumentList "/scannow" -Wait -PassThru -NoNewWindow
+
+# SFC Exit Codes: 0 = No issues, 1 = Issues found and fixed, 2 = Issues found but NOT fixed
+Write-Log "SFC finished with exit code: $($sfcProcess.ExitCode)"
+
+# 3. Logic: If SFC reports any result other than 0, run DISM
+if ($sfcProcess.ExitCode -ne 0) {
+    Write-Log "Corruption or integrity violations detected. Starting Windows Image Repair (DISM)..."
+    
+    try {
+        # Using -Online -RestoreHealth to repair the component store
+        Repair-WindowsImage -Online -RestoreHealth -LogPath (Join-Path $LogDir "DISM_Internal_$Timestamp.log") -ErrorAction Stop
+        Write-Log "DISM RestoreHealth completed successfully."
+    }
+    catch {
+        Write-Log "ERROR: DISM Repair failed: $($_.Exception.Message)"
+        exit $EXIT_ERR_DISM
+    }
+}
+else {
+    Write-Log "SFC reported no issues. Skipping DISM repair."
+}
+
+Write-Log "System integrity maintenance complete."
+exit $EXIT_SUCCESS

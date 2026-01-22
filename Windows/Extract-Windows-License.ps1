@@ -1,11 +1,11 @@
 <#
 .SYNOPSIS
-    Extracts Windows License Key from BIOS and Registry.
+    Extracts the full hardware-embedded Windows License Key for MSP auditing.
     
 .EXITCODES
     0    = Success
     1001 = Failed to create Log Directory
-    1002 = Critical error during key extraction
+    1002 = Critical error during extraction
 #>
 
 # Define Exit Codes
@@ -14,7 +14,7 @@ $errLogDir   = 1001
 $errCritical = 1002
 
 # Logic for dynamic logging
-$ScriptName = "Extract-WindowsLicense"
+$ScriptName = "Get-WindowsFullLicense"
 $Timestamp  = Get-Date -Format "yyyyMMdd_HHmmss"
 $LogDir     = "C:\temp"
 $LogFile    = "$LogDir\${ScriptName}_$Timestamp.log"
@@ -32,39 +32,36 @@ function Write-Log {
     param([string]$Message)
     $Entry = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - $Message"
     Add-Content -Path $LogFile -Value $Entry
-    Write-Output $Message # Allows RMM to capture output
+    Write-Output $Message
 }
 
-Write-Log "Starting License Extraction Script..."
+Write-Log "Starting Full License Extraction..."
 
 try {
-    # 1. Attempt to get BIOS Embedded Key (OEM)
-    Write-Log "Querying MSDM (BIOS) Table for OEM Key..."
-    $BIOSKey = (Get-CimInstance -ClassName SoftwareLicensingService).OA3xOriginalProductKey
+    # 1. Direct Query for the Full OA3x Key
+    Write-Log "Querying SoftwareLicensingService for OA3xOriginalProductKey..."
+    $FullKey = (Get-CimInstance -ClassName SoftwareLicensingService -Property OA3xOriginalProductKey).OA3xOriginalProductKey
     
-    if (-not $BIOSKey) {
-        # Fallback for older WMI versions/Hardware
-        $BIOSKey = (Get-CimInstance -Namespace root/StandardCimv2 -ClassName MSFT_SoftwareLicensingProduct | Where-Object { $_.PartialProductKey }).ProductKeyID
-    }
-
-    # 2. Get OS Description and License Status
+    # 2. Query for License Metadata (OS version and Partial Key for context)
     $OSInfo = Get-CimInstance -ClassName Win32_OperatingSystem
     $LicenseInfo = Get-CimInstance -ClassName SoftwareLicensingProduct | Where-Object { $_.PartialProductKey -and $_.Name -like "*Windows*" }
 
-    Write-Log "Operating System: $($OSInfo.Caption)"
-    Write-Log "License Status: $($LicenseInfo.LicenseStatus)"
+    Write-Log "OS Caption: $($OSInfo.Caption)"
     
-    if ($BIOSKey) {
-        Write-Log "Found BIOS/OEM Key: $BIOSKey"
+    # 3. Log the Results
+    if ($null -ne $FullKey -and $FullKey -ne "") {
+        Write-Log "--------------------------------------------------"
+        Write-Log "FULL HARDWARE LICENSE KEY: $FullKey"
+        Write-Log "--------------------------------------------------"
     } else {
-        Write-Log "No BIOS/OEM key found (Common in Retail/VMs/Volume Licensing)."
+        Write-Log "RESULT: No Full Hardware Key found (Could be a Retail, Volume, or Virtual Machine license)."
     }
 
-    # 3. Get currently active Partial Key
-    $PartialKey = $LicenseInfo.PartialProductKey
-    Write-Log "Active Partial Product Key: $PartialKey"
+    if ($LicenseInfo.PartialProductKey) {
+        Write-Log "Active Partial Key (for reference): $($LicenseInfo.PartialProductKey)"
+    }
 
-    Write-Log "Extraction Complete."
+    Write-Log "Extraction Process Finished Successfully."
     exit $exitSuccess
 
 } catch {

@@ -1,4 +1,4 @@
-﻿#Script used to fiund all accounts ahwihc are inactive in Active Directory and move them to a specific OU and disable them
+﻿#Script used to find all accounts that are inactive in Active Directory and move them to a specific OU and disable them
 #Customise the script with the source serach OU and desitnation OU to move the accounts, and specify the number of days the computer
 #must have been inactive for - suggested value is 60 days. 
 
@@ -39,6 +39,7 @@ Get-QADComputer -InactiveFor $NumOfDaysInactiveFor -SizeLimit 0 -SearchRoot $sea
 
 	Move-QADObject $computer -NewParentContainer $destinationOU 
 	
+
 
 
 }

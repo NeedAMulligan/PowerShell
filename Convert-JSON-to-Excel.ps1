@@ -13,7 +13,7 @@ $ExitCode = 0
 $ErrorActionPreference = "Stop"
 
 # Define Paths
-$JsonPath = "C:\Users\Mike.Mulligan\OneDrive - Resilient IT\Downloads\Exclusions_03_24_2026_14_54.json" # Update this path
+$JsonPath = "path\to\your\file.json" # Update this path
 $Timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
 $LogDir = "C:\temp"
 $LogFile = Join-Path $LogDir "ParseExclusions_$($Timestamp).log"

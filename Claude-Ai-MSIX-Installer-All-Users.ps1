@@ -1,0 +1,1 @@
+Add-AppxProvisionedPackage -Online -PackagePath "c:\temp\Claude.msix" -SkipLicense -Regions "all"

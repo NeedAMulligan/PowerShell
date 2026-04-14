@@ -3,14 +3,14 @@
     Sets Dell Power Manager charging mode to 'Adaptive'.
 
 .DESCRIPTION
-    1. Verifies the system is a Dell machine.
+    1. Verifies the system is a Dell machine using CIM.
     2. Ensures the script is running with Administrative privileges.
-    3. Checks for/Installs 'DellCommandPowerShellProvider'.
+    3. Checks for/Installs 'DellBIOSProvider' (formerly DellCommandPowerShellProvider).
     4. Sets 'PrimaryBattChargeCfg' or 'PrimaryBatteryChargeConfiguration' to 'Adaptive'.
-    5. Logs all actions to C:\temp.
+    5. Logs all actions to C:\temp with timestamping.
 
 .PARAMETER Silent
-    The script is designed to run silently by default based on user requirements.
+    The script is designed to run silently by default. Output is directed to the log file.
 
 .EXAMPLE
     .\Set-DellAdaptivePower.ps1
@@ -20,8 +20,10 @@
 # VARIABLES
 # ---------------------------------------------------------
 $LogPath      = "C:\temp"
-$LogFileName  = "Set-DellAdaptivePower_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
-$FullLogPath  = Join-Path $LogPath $LogFileName
+$ScriptName   = "Set-DellAdaptivePower"
+$Timestamp    = Get-Date -Format "yyyyMMdd_HHmmss"
+$FullLogPath  = Join-Path $LogPath "$($ScriptName)_$($Timestamp).log"
+
 $TargetMode   = "Adaptive"
 $ModuleName   = "DellBIOSProvider"
 
@@ -37,10 +39,12 @@ function Write-Log {
         [ValidateSet("INFO", "WARN", "ERROR")]
         [string]$Level = "INFO"
     )
-    $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    $LogEntry = "[$Timestamp] [$Level] - $Message"
+    $LogTimestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    $LogEntry = "[$LogTimestamp] [$Level] - $Message"
     
-    if (-not (Test-Path $LogPath)) { New-Item -Path $LogPath -ItemType Directory -Force | Out-Null }
+    if (-not (Test-Path $LogPath)) { 
+        New-Item -Path $LogPath -ItemType Directory -Force | Out-Null 
+    }
     $LogEntry | Out-File -FilePath $FullLogPath -Append
 }
 
@@ -50,17 +54,27 @@ function Test-IsAdmin {
 }
 
 function Install-DellProvider {
-    Write-Log "Checking for Dell Command PowerShell Provider..."
+    Write-Log "Checking for Dell Command PowerShell Provider ($ModuleName)..."
     if (-not (Get-Module -ListAvailable -Name $ModuleName)) {
         try {
             Write-Log "Provider not found. Attempting installation from PSGallery..."
+            
+            # Ensure TLS 1.2 for Gallery downloads
+            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+            
             Set-Service -Name "wuauserv" -StartupType Manual -ErrorAction SilentlyContinue
+            
+            Write-Log "Installing NuGet Provider..."
             Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -Confirm:$false -ErrorAction Stop
+            
+            Write-Log "Installing Module ${ModuleName}..."
             Install-Module -Name $ModuleName -Force -AllowClobber -Confirm:$false -ErrorAction Stop
-            Write-Log "Successfully installed $ModuleName."
+            
+            Write-Log "Successfully installed ${ModuleName}."
         }
         catch {
-            Write-Log "FAILED to install $ModuleName: $($_.Exception.Message)" "ERROR"
+            # FIX: Using ${ModuleName} to avoid drive-reference parser errors
+            Write-Log "FAILED to install ${ModuleName}: $($_.Exception.Message)" "ERROR"
             exit 3
         }
     }
@@ -77,11 +91,12 @@ try {
     # 1. Admin Check
     if (-not (Test-IsAdmin)) {
         Write-Log "Script must be run as Administrator." "ERROR"
+        Write-Error "Administrative privileges required."
         exit 2
     }
 
-    # 2. Hardware Check
-    $Chassis = Get-WmiObject -Class Win32_ComputerSystem
+    # 2. Hardware Check (Using Get-CimInstance for better performance/reliability)
+    $Chassis = Get-CimInstance -ClassName Win32_ComputerSystem
     if ($Chassis.Manufacturer -notmatch "Dell") {
         Write-Log "Non-Dell system detected ($($Chassis.Manufacturer)). Exiting." "WARN"
         exit 1
@@ -92,11 +107,12 @@ try {
     
     # Import the provider to create the DellSmbios: drive
     if (-not (Get-PSDrive -Name "DellSmbios" -ErrorAction SilentlyContinue)) {
+        Write-Log "Importing $ModuleName..."
         Import-Module $ModuleName -ErrorAction Stop
     }
 
     # 4. Configuration Logic
-    # Note: Attribute name varies slightly between BIOS versions (PrimaryBattChargeCfg vs PrimaryBatteryChargeConfiguration)
+    # Attribute names vary across Dell BIOS generations
     $PossiblePaths = @(
         "DellSmbios:\PowerManagement\PrimaryBattChargeCfg",
         "DellSmbios:\PowerManagement\PrimaryBatteryChargeConfiguration"
@@ -122,7 +138,7 @@ try {
     }
 
     if (-not $Applied) {
-        throw "Could not find a valid Power Management BIOS attribute for battery charging."
+        throw "Could not find a valid Power Management BIOS attribute for battery charging. Ensure Dell Command | Configure is compatible with this model."
     }
 
     Write-Log "Script completed successfully."

@@ -1,266 +1,132 @@
 <#
 .SYNOPSIS
-    Checks for the installation of Dell Command | Update (DCU), removes conflicting software, installs the Universal version if needed, and configures settings silently.
+    Automates Dell Command | Update silently with registry initialization and logging.
 
 .DESCRIPTION
-    This script performs the following actions:
-    1. Checks if Dell Command | Update is installed.
-    2. If NOT installed:
-       a. Removes common conflicting Dell Update programs silently.
-       b. Downloads and installs the DCU Universal application silently using the DUP file link provided (Driver ID C8JXV).
-    3. If DCU is installed (either initially or after installation), it configures the following registry settings:
-       - Update Action: Set to 'Notify Only' (corresponds to 'Downloads and notifies').
-       - Advanced Driver Restore (ADR): Enabled.
+    Checks for the DCU CLI, ensures the Dell Client Management Service is running, 
+    initializes missing registry configurations to prevent failure, and runs an update apply.
+    Optimized for silent, local execution.
 
-.NOTES
-    - Requires Administrative privileges (Elevated PowerShell) for registry modification, installation, and uninstallation.
-    - Script is designed to be completely silent (no console output).
-    - Log file is written to C:\Temp with a dynamic name.
-
-.EXIT CODES
-    0: Success. All configuration steps completed successfully.
-    1: DCU installation/verification failed. DCU is not installed, and automatic installation attempt failed. Configuration skipped.
-    2: Configuration Failed. Failed to set one or more required registry keys (e.g., permissions issue or missing key).
+.EXAMPLE
+    .\Invoke-DellUpdateLocal.ps1
 #>
 
-[CmdletBinding()]
-param()
+# -------------------------------------------------------------------------
+# VARIABLES
+# -------------------------------------------------------------------------
+$Variables = @{
+    LogPath            = "C:\temp"
+    LogName            = "DellUpdate_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
+    DcuCliPath         = "C:\Program Files\Dell\CommandUpdate\dcu-cli.exe"
+    DcuService         = "DellClientManagementService"
+    RegistrySettings   = "HKLM:\SOFTWARE\Dell\UpdateService\Settings"
+    UpdateArgs         = "/applyUpdates -reboot=disable"
+}
 
-#region Script Configuration
-
-# LOGGING SETUP
-$LogPath = "C:\Temp"
-$LogFile = "DellCommandUpdate_Config_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
-$FullLogPath = Join-Path -Path $LogPath -ChildPath $LogFile
-$ExitCode = 0
-
-# INSTALLER VARIABLES - Updated with the direct DUP link for Dell Command Update v5.5.0 (C8JXV)
-$DCUDownloadURL = "https://dl.dell.com/FOLDER10646142M/1/Dell-Command-Update-Application_C8JXV_WIN_5.5.0_A00.EXE"
-$DCUInstallerName = "DCUUniversal.exe"
-$LocalInstallerPath = Join-Path -Path $LogPath -ChildPath $DCUInstallerName
-
-# COMMON DCU CLI PATHS (Used to verify installation)
-$DCUPath64 = "$env:ProgramFiles\Dell\CommandUpdate\dcu-cli.exe"
-$DCUPath32 = "$env:ProgramFiles(x86)\Dell\CommandUpdate\dcu-cli.exe"
-
-# COMMON DCU REGISTRY PATH (Used for silent setting configuration)
-$DCUKeyPath = "HKLM:\SOFTWARE\Dell\UpdateService\Settings"
-
-# CONFIGURATION VALUES (Registry DWORD)
-# 1. UpdateSettings\WhenUpdatesAreFound: 1 = Notify Only (Downloads and notifies)
-$UpdateActionKey = "UpdateSettings\WhenUpdatesAreFound"
-$UpdateActionValue = 1
-
-# 2. AdvancedDriverRestore\FeatureEnabled: 1 = Enabled
-$ADRKey = "AdvancedDriverRestore\FeatureEnabled"
-$ADRValue = 1
-
-#endregion
-
-#region Logging Function
-function Write-Log {
-    param(
-        [Parameter(Mandatory=$true)][string]$Message,
-        [Parameter(Mandatory=$false)][int]$Code = 0
+# -------------------------------------------------------------------------
+# LOGGING FUNCTION
+# -------------------------------------------------------------------------
+function Write-LocalLog {
+    param (
+        [string]$Message,
+        [ValidateSet("INFO", "ERROR", "WARN")]
+        [string]$Level = "INFO"
     )
     $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    "$Timestamp - $Message" | Out-File -FilePath $FullLogPath -Append -Force
-    if ($Code -ne 0) {
-        $script:ExitCode = $Code
-        "$Timestamp - Exiting with code $Code." | Out-File -FilePath $FullLogPath -Append -Force
-        exit $Code
-    }
-}
-#endregion
-
-#region Removal and Installation Functions
-
-function Remove-OldDellUpdate {
-    Write-Log -Message "STATUS: Searching for and removing potentially conflicting Dell Update programs..."
-
-    # Common names for Dell Update software to look for in the Uninstall registry key
-    $ProgramsToUninstallRegex = "(Dell Command \| Update)|(Dell Update)|(Dell Update Universal Application)"
-    $UninstallKeys = @(
-        "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall",
-        "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
-    )
     
-    $UninstallSuccess = $true
-
-    foreach ($Key in $UninstallKeys) {
-        if (Test-Path $Key) {
-            # Find matching software entries
-            $Software = Get-ChildItem -Path $Key -ErrorAction SilentlyContinue |
-                        Get-ItemProperty -ErrorAction SilentlyContinue |
-                        Where-Object { $_.DisplayName -match $ProgramsToUninstallRegex -and $_.UninstallString }
-
-            foreach ($Program in $Software) {
-                $DisplayName = $Program.DisplayName
-                $UninstallCommand = $Program.UninstallString
-                
-                # Check for msiexec commands and adjust arguments
-                if ($UninstallCommand -match 'msiexec\.exe') {
-                    # For MSI, ensure /qn (quiet, no UI) is used
-                    $CommandArgs = "$UninstallCommand /qn"
-                } else {
-                    # Assume DUP or standard installer, use /s for silent
-                    $CommandArgs = "$UninstallCommand /s /qn"
-                }
-
-                Write-Log -Message "ATTEMPT: Found '$DisplayName'. Executing uninstall command: $CommandArgs"
-
-                try {
-                    # Execute the uninstall command silently using PowerShell to handle the start-process call
-                    $Process = Start-Process powershell -ArgumentList "-WindowStyle Hidden -Command & {$CommandArgs}" -NoNewWindow -Wait -PassThru -ErrorAction Stop
-                    
-                    if ($Process.ExitCode -eq 0 -or $Process.ExitCode -eq 1641 -or $Process.ExitCode -eq 3010) {
-                        # Exit code 0, 1641 (success/reboot needed), 3010 (success/reboot needed) are successful uninstalls
-                        Write-Log -Message "SUCCESS: '$DisplayName' removed successfully (Exit Code $($Process.ExitCode))."
-                    } else {
-                        Write-Log -Message "WARNING: '$DisplayName' uninstall command executed with non-successful exit code: $($Process.ExitCode)."
-                        $UninstallSuccess = $false
-                    }
-                } catch {
-                    Write-Log -Message "ERROR: Failed to execute uninstall command for '$DisplayName'. $($_.Exception.Message)"
-                    $UninstallSuccess = $false
-                }
-            }
+    # Using ${} prevents "InvalidVariableReferenceWithDrive" error
+    $LogEntry = "$Timestamp - ${Level}: $Message"
+    
+    if (-not (Test-Path $Variables.LogPath)) {
+        try {
+            New-Item -Path $Variables.LogPath -ItemType Directory -Force -ErrorAction Stop | Out-Null
+        }
+        catch {
+            return # Exit silently if logging directory cannot be created
         }
     }
-    return $UninstallSuccess
+    
+    $LogFile = Join-Path $Variables.LogPath $Variables.LogName
+    $LogEntry | Out-File -FilePath $LogFile -Append
 }
 
-function Install-DCUUniversal {
-    Write-Log -Message "STATUS: Starting silent download and installation of Dell Command Update Universal."
-
-    # Download the installer
+# -------------------------------------------------------------------------
+# INITIALIZATION FUNCTIONS
+# -------------------------------------------------------------------------
+function Initialize-DcuEnvironment {
     try {
-        Write-Log -Message "ATTEMPT: Downloading DCU installer from $DCUDownloadURL to $LocalInstallerPath"
-        Invoke-WebRequest -Uri $DCUDownloadURL -OutFile $LocalInstallerPath -UseBasicParsing -ErrorAction Stop
-        Write-Log -Message "SUCCESS: Download complete."
-    } catch {
-        Write-Log -Message "ERROR: Failed to download DCU installer from $DCUDownloadURL. $($_.Exception.Message)"
-        return $false
+        # 1. Verify Executable Path
+        if (-not (Test-Path $Variables.DcuCliPath)) {
+            Write-LocalLog "DCU CLI not found at $($Variables.DcuCliPath). Ensure Dell Command | Update is installed." "ERROR"
+            exit 2
+        }
+
+        # 2. Verify and Start Dell Client Management Service
+        $Service = Get-Service -Name $Variables.DcuService -ErrorAction SilentlyContinue
+        if ($null -eq $Service) {
+            Write-LocalLog "Required service $($Variables.DcuService) is not installed." "ERROR"
+            exit 3
+        }
+
+        if ($Service.Status -ne 'Running') {
+            Write-LocalLog "Service $($Variables.DcuService) is stopped. Attempting to start..." "INFO"
+            Start-Service -Name $Variables.DcuService -ErrorAction Stop
+            Start-Sleep -Seconds 5
+        }
+
+        # 3. Handle Missing Registry Key (The fix for your specific error)
+        if (-not (Test-Path $Variables.RegistrySettings)) {
+            Write-LocalLog "Registry key missing. Initializing path and triggering CLI handshake..." "WARN"
+            
+            # Force creation of the registry hive
+            New-Item -Path "HKLM:\SOFTWARE\Dell\UpdateService" -Name "Settings" -Force -ErrorAction SilentlyContinue | Out-Null
+            
+            # Run a minor CLI command to force the service to populate default settings
+            Start-Process -FilePath $Variables.DcuCliPath -ArgumentList "/policy" -Wait -WindowStyle Hidden
+            
+            Write-LocalLog "Registry initialization sequence completed." "INFO"
+        }
     }
+    catch {
+        Write-LocalLog "Critical error during environment initialization: $($_.Exception.Message)" "ERROR"
+        exit 1
+    }
+}
 
-    # Install the program silently
+function Invoke-DcuUpdate {
     try {
-        Write-Log -Message "ATTEMPT: Starting silent installation of DCU ($LocalInstallerPath /s)"
+        Write-LocalLog "Executing update scan and application..." "INFO"
         
-        # /s is the universal switch for Dell Update Packages (DUP)
-        $Process = Start-Process -FilePath $LocalInstallerPath -ArgumentList "/s" -Wait -PassThru -ErrorAction Stop
+        # Execute DCU CLI silently with provided arguments
+        $Process = Start-Process -FilePath $Variables.DcuCliPath -ArgumentList $Variables.UpdateArgs -Wait -PassThru -WindowStyle Hidden
         
-        if ($Process.ExitCode -eq 0 -or $Process.ExitCode -eq 1641 -or $Process.ExitCode -eq 3010) {
-            Write-Log -Message "SUCCESS: DCU installation completed successfully (Exit Code $($Process.ExitCode)). Waiting 10 seconds for service initialization."
-            Start-Sleep -Seconds 10 # Wait for services and registry keys to populate
-            return $true
-        } else {
-            Write-Log -Message "ERROR: DCU installation failed with non-zero exit code: $($Process.ExitCode)."
-            return $false
-        }
-    } catch {
-        Write-Log -Message "ERROR: Failed to start DCU installer process. $($_.Exception.Message)"
-        return $false
-    } finally {
-        # Clean up the downloaded installer file
-        if (Test-Path -Path $LocalInstallerPath) {
-             Remove-Item -Path $LocalInstallerPath -Force -ErrorAction SilentlyContinue
-             Write-Log -Message "INFO: Cleaned up installer file at $LocalInstallerPath."
+        # DCU Exit Codes: 0 = Success, 1 = Reboot Required, 2 = Error, 3 = No updates found
+        switch ($Process.ExitCode) {
+            0 { Write-LocalLog "Process finished. No updates needed or updates applied successfully." "INFO" }
+            1 { Write-LocalLog "Updates applied successfully, but a system reboot is required." "WARN" }
+            3 { Write-LocalLog "Scan completed: No applicable updates found for this system." "INFO" }
+            Default { Write-LocalLog "DCU CLI returned exit code: $($Process.ExitCode)" "WARN" }
         }
     }
-}
-#endregion
-
-#region Pre-Checks and Setup
-
-# 1. Ensure the log path exists
-if (-not (Test-Path -Path $LogPath)) {
-    try {
-        New-Item -Path $LogPath -ItemType Directory -Force | Out-Null
-    } catch {
-        # Cannot log if folder creation fails, so we just exit
-        exit 2
+    catch {
+        Write-LocalLog "Failed to execute update process: $($_.Exception.Message)" "ERROR"
+        exit 1
     }
 }
-Write-Log -Message "Log file initialized."
 
-# 2. Check if DCU is installed and decide action
-$DCUInstalled = $false
-$DCUExePath = $null
-
-if (Test-Path -Path $DCUPath64) {
-    $DCUInstalled = $true
-    $DCUExePath = $DCUPath64
-    Write-Log -Message "INFO: Dell Command Update 64-bit application found at: $DCUExePath. Skipping installation steps."
-} elseif (Test-Path -Path $DCUPath32) {
-    $DCUInstalled = $true
-    $DCUExePath = $DCUPath32
-    Write-Log -Message "INFO: Dell Command Update 32-bit application found at: $DCUExePath. Skipping installation steps."
-} else {
-    Write-Log -Message "WARNING: Dell Command Update was not found. Attempting removal of old versions and silent installation."
+# -------------------------------------------------------------------------
+# MAIN EXECUTION BLOCK
+# -------------------------------------------------------------------------
+try {
+    Write-LocalLog "--- Script Execution Started (Silent Mode) ---" "INFO"
     
-    # NEW LOGIC: Remove and Install
-    $RemovalSuccessful = Remove-OldDellUpdate
+    Initialize-DcuEnvironment
+    Invoke-DcuUpdate
     
-    if ($RemovalSuccessful) {
-        $InstallSuccessful = Install-DCUUniversal
-        if ($InstallSuccessful) {
-            Write-Log -Message "STATUS: DCU installation attempted. Re-checking for installation path."
-            # Re-check paths after install
-            if (Test-Path -Path $DCUPath64) {
-                $DCUInstalled = $true
-                $DCUExePath = $DCUPath64
-            } elseif (Test-Path -Path $DCUPath32) {
-                $DCUInstalled = $true
-                $DCUExePath = $DCUPath32
-            }
-        }
-    }
-
-    if (-not $DCUInstalled) {
-        Write-Log -Message "FATAL: Dell Command Update could not be installed or verified after installation. Configuration aborted." -Code 1
-    }
+    Write-LocalLog "--- Script Execution Finished ---" "INFO"
+    exit 0
 }
-
-# 3. Check for the registry path (must exist to write settings)
-if ($DCUInstalled -and (-not (Test-Path -Path $DCUKeyPath))) {
-    Write-Log -Message "ERROR: DCU application path found, but required registry key ($DCUKeyPath) is missing. Cannot configure." -Code 2
+catch {
+    Write-LocalLog "Unexpected Script Failure: $($_.Exception.Message)" "ERROR"
+    exit 1
 }
-
-#endregion
-
-#region Configuration Logic
-if ($DCUInstalled -and (Test-Path -Path $DCUKeyPath)) {
-    Write-Log -Message "STATUS: Starting Dell Command Update configuration..."
-    $ConfigSuccess = $true
-
-    # 1. Configure Update Action: Notify Only (Downloads and notifies)
-    try {
-        $FullUpdateActionKey = Join-Path -Path $DCUKeyPath -ChildPath $UpdateActionKey
-        Set-ItemProperty -Path $FullUpdateActionKey -Name "(Default)" -Value $UpdateActionValue -Type DWord -Force
-        Write-Log -Message "SUCCESS: Set Update Action to '$UpdateActionValue' (Notify Only)."
-    } catch {
-        $ConfigSuccess = $false
-        Write-Log -Message "ERROR: Failed to set Update Action registry key. $($_.Exception.Message)"
-    }
-
-    # 2. Configure Advanced Driver Restore (ADR): Enable
-    try {
-        $FullADRKey = Join-Path -Path $DCUKeyPath -ChildPath $ADRKey
-        Set-ItemProperty -Path $FullADRKey -Name "(Default)" -Value $ADRValue -Type DWord -Force
-        Write-Log -Message "SUCCESS: Enabled Advanced Driver Restore (ADR)."
-    } catch {
-        $ConfigSuccess = $false
-        Write-Log -Message "ERROR: Failed to set Advanced Driver Restore (ADR) registry key. $($_.Exception.Message)"
-    }
-
-    if (-not $ConfigSuccess) {
-        Write-Log -Message "FAILURE: One or more configuration settings failed to apply." -Code 2
-    } else {
-        Write-Log -Message "STATUS: Configuration complete."
-    }
-}
-#endregion
-
-# If successful, exit with code 0 (This is the default if no errors occurred)
-Write-Log -Message "Script finished successfully." -Code 0

@@ -1,38 +1,41 @@
 <#
 .SYNOPSIS
-    Installs and updates essential administrative PowerShell modules for Windows Server environments.
+    Comprehensive Admin Environment Setup for Windows Server (2019/2022).
 
 .DESCRIPTION
-    This script automates the setup of an admin workstation/server. It configures TLS 1.2, 
-    trusts PSGallery, installs NuGet, and ensures the latest versions of Microsoft 365 
-    and Windows Update modules are installed. Logs are saved to C:\temp.
+    Standardizes a local server by:
+    1. Enforcing TLS 1.2 and Trusting PSGallery.
+    2. Installing/Updating NuGet and PowerShellGet.
+    3. Installing M365 Modules (Teams, SharePoint, Exchange, Full Graph).
+    4. Installing Windows Update and WinGet modules.
+    5. Bootstrapping the WinGet engine (winget.exe) for Server OS.
+    6. Logging all actions to C:\temp.
 
-.EXAMPLE
-    .\Install-AdminModules.ps1
+.NOTES
+    Configured for Interactive Output with background logging.
 #>
 
 # ---------------------------------------------------------------------------
-# VARIABLES
+# 1. CONFIGURABLE VARIABLES
 # ---------------------------------------------------------------------------
 $ModulesToInstall = @(
-    "MicrosoftTeams",
     "NuGet",
-    "PackageManagement",
     "PowerShellGet",
+    "MicrosoftTeams",
     "Microsoft.Online.SharePoint.PowerShell",
-    "Microsoft.WinGet.Client",
-    "Microsoft.Graph",
     "ExchangeOnlineManagement",
-    "PSWindowsUpdate"
+    "Microsoft.Graph",
+    "PSWindowsUpdate",
+    "Microsoft.WinGet.Client"
 )
 
 $LogDir     = "C:\temp"
 $Timestamp  = Get-Date -Format "yyyyMMdd_HHmmss"
-$LogFile    = Join-Path $LogDir "Install-AdminModules_$Timestamp.log"
+$LogFile    = Join-Path $LogDir "ServerAdminSetup_$Timestamp.log"
 $ErrorFound = $false
 
 # ---------------------------------------------------------------------------
-# FUNCTIONS
+# 2. HELPER FUNCTIONS
 # ---------------------------------------------------------------------------
 function Write-Log {
     param (
@@ -43,95 +46,107 @@ function Write-Log {
     )
     $LogEntry = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') [$($Level.ToUpper())] $Message"
     
-    # Write to console for interactivity
+    # Interactive UI Output
     switch ($Level) {
         "Info"    { Write-Host $LogEntry -ForegroundColor Cyan }
         "Warning" { Write-Host $LogEntry -ForegroundColor Yellow }
         "Error"   { Write-Host $LogEntry -ForegroundColor Red }
     }
     
-    # Write to file
+    # Persistent Logging
     $LogEntry | Out-File -FilePath $LogFile -Append
 }
 
 # ---------------------------------------------------------------------------
-# EXECUTION LOGIC
+# 3. PRE-EXECUTION CHECKS & ENVIRONMENT SETUP
 # ---------------------------------------------------------------------------
 
-# 1. Check for Admin Privileges
+# Ensure Admin privileges
 if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Warning "This script must be run as Administrator."
+    Write-Warning "CRITICAL: This script must be run as Administrator."
     exit 1
 }
 
-# 2. Setup Logging Directory
-if (-not (Test-Path $LogDir)) {
-    New-Item -Path $LogDir -ItemType Directory -Force | Out-Null
-}
+# Ensure Log Directory exists
+if (-not (Test-Path $LogDir)) { New-Item -Path $LogDir -ItemType Directory -Force | Out-Null }
 
-Write-Log "Starting Module Installation Script."
-Write-Log "Logging to: $LogFile"
+Write-Log "Initializing Server Admin Module Deployment..."
+Write-Log "Log file initialized at: $LogFile"
 
-# 3. Environment Hardening & Requirements
 try {
-    Write-Log "Enforcing TLS 1.2 for secure gallery connections..."
+    Write-Log "Enforcing TLS 1.2 for secure connections..."
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
     Write-Log "Setting PSGallery to Trusted..."
     Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted -ErrorAction Stop
 
-    Write-Log "Installing/Updating NuGet Provider..."
+    Write-Log "Ensuring NuGet Provider is current..."
     Install-PackageProvider -Name "NuGet" -MinimumVersion 2.8.5.201 -Force -ErrorAction Stop
 }
 catch {
-    Write-Log "Critical Environment Setup Failed: $_" -Level Error
+    Write-Log "Failed to initialize environment: $_" -Level Error
     exit 2
 }
 
-# 4. Install Windows Features (RSAT-AD)
+# ---------------------------------------------------------------------------
+# 4. WINDOWS FEATURE INSTALLATION (RSAT)
+# ---------------------------------------------------------------------------
 try {
-    Write-Log "Ensuring RSAT-AD-PowerShell is installed..."
+    Write-Log "Checking for RSAT Active Directory PowerShell modules..."
     $Feature = Get-WindowsFeature -Name RSAT-AD-PowerShell
     if (-not $Feature.Installed) {
+        Write-Log "Installing RSAT-AD-PowerShell..."
         Install-WindowsFeature -Name RSAT-AD-PowerShell -IncludeAllSubFeature -ErrorAction Stop
-        Write-Log "Successfully installed RSAT-AD-PowerShell."
     } else {
-        Write-Log "RSAT-AD-PowerShell is already present."
+        Write-Log "RSAT-AD-PowerShell is already installed."
     }
 }
 catch {
-    Write-Log "Failed to install RSAT-AD-PowerShell: $_" -Level Error
+    Write-Log "Failed to install Windows Feature: $_" -Level Error
     $ErrorFound = $true
 }
 
-# 5. Process Modules
+# ---------------------------------------------------------------------------
+# 5. MODULE INSTALLATION & WINGET BOOTSTRAPPING
+# ---------------------------------------------------------------------------
 foreach ($ModuleName in $ModulesToInstall) {
     try {
-        $InstalledModule = Get-Module -ListAvailable -Name $ModuleName -ErrorAction SilentlyContinue
+        $ModuleCheck = Get-Module -ListAvailable -Name $ModuleName -ErrorAction SilentlyContinue
         
-        if ($InstalledModule) {
-            Write-Log "Updating module: $ModuleName..."
-            Update-Module -Name $ModuleName -Force -ErrorAction Stop
-            Write-Log "$ModuleName updated successfully."
+        if ($ModuleCheck) {
+            Write-Log "[$ModuleName] Updating existing module..."
+            Update-Module -Name $ModuleName -Force -AcceptLicense -ErrorAction Stop
+            Write-Log "[$ModuleName] Update complete."
         }
         else {
-            Write-Log "Installing module: $ModuleName..."
-            Install-Module -Name $ModuleName -Scope AllUsers -Force -AllowClobber -ErrorAction Stop
-            Write-Log "$ModuleName installed successfully."
+            Write-Log "[$ModuleName] Installing new module..."
+            # -AcceptLicense is required for Graph/Teams in newer versions
+            Install-Module -Name $ModuleName -Scope AllUsers -Force -AllowClobber -AcceptLicense -ErrorAction Stop
+            Write-Log "[$ModuleName] Installation complete."
+        }
+
+        # Special logic for WinGet engine on Server OS
+        if ($ModuleName -eq "Microsoft.WinGet.Client") {
+            Write-Log "Attempting to bootstrap WinGet Engine (winget.exe) for Server..."
+            # This cmdlet downloads required dependencies for Server environments
+            Repair-WinGetPackageManager -Confirm:$false -ErrorAction SilentlyContinue
+            Write-Log "WinGet Engine bootstrap process finished."
         }
     }
     catch {
-        Write-Log "Failed to process module '$ModuleName': $_" -Level Error
+        Write-Log "FAILED to process module '$ModuleName': $_" -Level Error
         $ErrorFound = $true
     }
 }
 
-# 6. Final Summary
-Write-Log "----------------------------------------------------"
+# ---------------------------------------------------------------------------
+# 6. FINALIZATION
+# ---------------------------------------------------------------------------
+Write-Log "----------------------------------------------------------------"
 if ($ErrorFound) {
-    Write-Log "Script completed with errors. Please review the log file." -Level Warning
+    Write-Log "Script completed with one or more errors. Check the log for details." -Level Warning
     exit 3
 } else {
-    Write-Log "All tasks completed successfully. ✨"
+    Write-Log "SUCCESS: All modules and features are ready for use."
     exit 0
 }

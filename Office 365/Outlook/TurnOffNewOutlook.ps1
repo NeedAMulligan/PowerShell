@@ -1,0 +1,1 @@
+New-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Office\16.0\Outlook\Preferences' -Name 'UseNewOutlook' -Value '0' -Force

@@ -1,0 +1,3 @@
+POWERSHELL:  $msi = ((Get-Package | Where-Object { $_.Name -like "HP Wolf Security" }).fastpackagereference); start-process msiexec.exe -wait -argumentlist  "/x $msi /qn /norestart" and store the result in %powershellresult%
+POWERSHELL:  $msi = ((Get-Package | Where-Object { $_.Name -like "HP Wolf Security - Console" }).fastpackagereference); start-process msiexec.exe -wait -argumentlist  "/x $msi /qn /norestart" and store the result in %powershellresult%
+POWERSHELL:  $msi = ((Get-Package | Where-Object { $_.Name -like "*HP security update service*" }).fastpackagereference); start-process msiexec.exe -wait -argumentlist  "/x $msi /qn /norestart" and store the result in %powershellresult%

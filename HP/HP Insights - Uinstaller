@@ -1,0 +1,1 @@
+POWERSHELL:  $msi = ((Get-Package | Where-Object { $_.Name -like "HP Insights" }).fastpackagereference); start-process msiexec.exe -wait -argumentlist  "/I $msi /qn /norestart"

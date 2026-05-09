@@ -1,0 +1,1 @@
+Set-HPBIOSSettingValue -Name 'Secure Boot' -Value ""Enable""

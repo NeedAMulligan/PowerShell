@@ -1,0 +1,3 @@
+Set-ExecutionPolicy bypass and store the result in %powershellresult%		
+Get-HPBIOSSettingsList and store the result in %powershellresult%		
+Set-ExecutionPolicy default and store the result in %powershellresult%	

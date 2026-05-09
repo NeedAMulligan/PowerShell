@@ -1,1 +1,0 @@
-Remove-LocalUser -Name "lcadmn2023"

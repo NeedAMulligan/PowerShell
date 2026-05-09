@@ -14,16 +14,16 @@
 #
 ##################################################################################################################
 # Please Configure the following variables....
-$SearchBase="DC=EWACORP,DC=COM"
-$smtpServer="d216038a.ess.barracudanetworks.com"
+$SearchBase="DC=DOMAIN,DC=COM"
+$smtpServer="SMTP-SERVER"
 $expireindays = 7 #number of days of soon-to-expire paswords. i.e. notify for expiring in X days (and every day until $negativedays)
 $negativedays = -3 #negative number of days (days already-expired). i.e. notify for expired X days ago
-$from = "Helpdesk <helpdesk@ewa.com>"
+$from = "SENDING ENAIL ADDRESS"
 $logging = $true # Set to $false to Disable Logging
 $logNonExpiring = $true
 $logFile = "c:\Temp\mylog.csv" # ie. c:\mylog.csv
 $testing = $true # Set to $false to Email Users
-$adminEmailAddr = "server-support@ewa.com" #multiple addr allowed but MUST be independent strings separated by comma
+$adminEmailAddr = "EMAIL ADDRESS" #multiple addr allowed but MUST be independent strings separated by comma
 $sampleEmails = 3 #number of sample email to send to adminEmailAddr when testing ; in the form $sampleEmails="ALL" or $sampleEmails=[0..X] e.g. $sampleEmails=0 or $sampleEmails=3 or $sampleEmails="all" are all valid.
 #
 ###################################################################################################################
@@ -129,9 +129,9 @@ foreach ($user in $users) {
     <br><br>
     Thank you,
     <br><br>
-    EWA Helpdesk
+    CONTACT
     <br>
-    helpdesk@ewa.com
+    CONTACT EMAIL
     <br><br>
     </p>
     <p style='color:red'><i>This automated message will never include a link to reset your password </i></p>

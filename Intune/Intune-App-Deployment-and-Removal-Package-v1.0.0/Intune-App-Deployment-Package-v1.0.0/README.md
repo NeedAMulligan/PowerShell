@@ -1,4 +1,4 @@
-# Resilient IT Intune App Deployment Package v1.0.0
+# Intune App Deployment Package v1.0.0
 
 This package contains validated Intune deployment scripts for commercial Microsoft 365 tenants and GCC High tenants.
 
@@ -28,7 +28,7 @@ This package contains validated Intune deployment scripts for commercial Microso
 
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
-.\Start-RIT-Intune-App-Deployment.ps1
+.\Start-Intune-App-Deployment.ps1
 ```
 
 You may also run any deployment script directly from the Global or GCCH folder.

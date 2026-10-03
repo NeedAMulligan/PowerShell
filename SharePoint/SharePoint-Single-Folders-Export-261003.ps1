@@ -7,7 +7,7 @@
 .DESCRIPTION
     Connects to SharePoint Online using PnP PowerShell and crawls the sub-folder structure of a designated 
     root folder within a specified Document Library. Outputs the discovered folder hierarchy to a CSV report 
-    and logs execution details in C:\Temp.
+    and logs execution details in C:\Temp, while automatically cleaning up log files older than 7 days.
 
 .PARAMETER SiteUrl
     The full URL of the target SharePoint Online site collection.
@@ -80,7 +80,7 @@ if (-not (Get-Module -ListAvailable -Name $RequiredModule)) {
 Import-Module -Name $RequiredModule -ErrorAction Stop
 
 # --------------------------------------------------------------------------
-# 2. LOGGING INITIALIZATION
+# 2. LOGGING INITIALIZATION & HOUSEKEEPING
 # --------------------------------------------------------------------------
 $ScriptName = "SharePoint_SingleExport"
 $DateStamp  = Get-Date -Format "yyyyMMdd_HHmmss"
@@ -88,6 +88,11 @@ $DateStamp  = Get-Date -Format "yyyyMMdd_HHmmss"
 if (-not (Test-Path -Path $LogDirectory)) {
     New-Item -Path $LogDirectory -ItemType Directory -Force | Out-Null
 }
+
+# Remove log files older than 7 days from the log directory
+Get-ChildItem -Path $LogDirectory -Filter "*.log" -File -ErrorAction SilentlyContinue | 
+    Where-Object { $_.LastWriteTime -lt (Get-Date).AddDays(-7) } | 
+    Remove-Item -Force -ErrorAction SilentlyContinue
 
 $LogFile = Join-Path -Path $LogDirectory -ChildPath "$($ScriptName)_$($DateStamp).log"
 

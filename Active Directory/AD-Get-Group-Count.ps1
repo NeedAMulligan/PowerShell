@@ -1,1 +1,0 @@
-(Get-ADGroup VPN -Properties *).Member.Count

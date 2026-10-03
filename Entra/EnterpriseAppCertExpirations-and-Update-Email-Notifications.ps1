@@ -15,7 +15,7 @@ if (-not (Test-Path -Path $outputDir)) {
 $outputPath = Join-Path $outputDir "EnterpriseAppCertExpirations.csv"
 
 # 3. Email address to add to SAML application notification settings if missing
-$targetEmail = "monitoring@resilientit.us"
+$targetEmail = "EMAIL@COMPANY.COM"
 
 # Validate the target email address before making any changes
 try {

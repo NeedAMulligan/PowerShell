@@ -1,1 +1,0 @@
-Export all Active Directory groups, the group catagory, group scope and all group members to a CSV file. Active Directory PowerShell module is required. Tested on Windows Server 2012 R2 and Windows Server 2016. Amend $DateTime variable format and $CSVFile for path and filename

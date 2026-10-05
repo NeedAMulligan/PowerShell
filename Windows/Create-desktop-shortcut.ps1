@@ -1,4 +1,4 @@
-$shell = New-Object -ComObject WScript.Shell
-$shortcut = $shell.CreateShortcut("C:\temp\shortcut.lnk")
-$shortcut.TargetPath = "C:\Windows\System32\cmd.exe"
-$shortcut.Save()
+$WshShell = New-Object -comObject WScript.Shell
+$Shortcut = $WshShell.CreateShortcut("C:\users\USERNAME\Desktop\WinDirStat.lnk")
+$Shortcut.TargetPath = "C:\Program Files (x86)\WinDirStat\windirstat.exe"
+$Shortcut.Save()

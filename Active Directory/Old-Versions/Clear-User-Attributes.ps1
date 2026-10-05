@@ -1,0 +1,2 @@
+get-aduser -filter * -Searchbase "OU=2023,OU=DISABLED USERS,DC=ewacorp,DC=com" | 
+set-aduser -clear 'manager','homeDirectory','homeDrive','physicalDeliveryOfficeName','telephoneNumber','o','postalcode','st','streetaddress','title','department','l','company','c','department'

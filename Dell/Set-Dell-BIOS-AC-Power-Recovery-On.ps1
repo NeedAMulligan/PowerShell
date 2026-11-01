@@ -1,49 +1,88 @@
-# Ensure script is run with administrator privileges
-If (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Warning "Please run this script in an elevated PowerShell session (Run as Administrator)."
-    Exit
+<#
+.SYNOPSIS
+    Configures Dell BIOS AC Power Recovery (WakeOnAc) to Enabled.
+.DESCRIPTION
+    Checks/installs DellBIOSProvider module, logs actions dynamically to C:\temp,
+    prunes old logs, and sets WakeOnAc to Enabled with robust try-catch error handling.
+#>
+
+[CmdletBinding()]
+param()
+
+# --- Configuration Variables ---
+$ModuleName    = "DellBIOSProvider"
+$RegistryPath  = "DellSmbios:\PowerManagement"
+$AttributeName = "WakeOnAc"
+$DesiredValue  = "Enabled"
+$LogDir        = "C:\temp"
+$Timestamp     = Get-Date -Format "yyyyMMdd_HHmmss"
+$LogFile       = Join-Path $LogDir "Set-Dell-BIOS-AC-Power-Recovery-On_$Timestamp.log"
+
+# --- Logging & Pruning Function ---
+function Write-Log {
+    param([string]$Message, [string]$Level = "INFO")
+    $LogEntry = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') [$Level] $Message"
+    Add-Content -Path $LogFile -Value $LogEntry
+    if ($Level -eq "ERROR") {
+        Write-Error $Message
+    } else {
+        Write-Verbose $Message
+    }
 }
 
-$ModuleName = "DellBIOSProvider"
-$DriveName = "DellSmbios"
-$Path = "DellSmbios:\PowerManagement"
-$Attribute = "AcPwrRcvry"
-$DesiredValue = "On"
-
-# Step 1: Check and install module if missing
-Write-Host "Checking for module: $ModuleName..." -ForegroundColor Cyan
-if (-not (Get-Module -ListAvailable -Name $ModuleName)) {
-    Write-Host "Module not found. Installing $ModuleName from PowerShell Gallery..." -ForegroundColor Yellow
-    Install-Module -Name $ModuleName -Force -Scope AllUsers -ErrorAction Stop
-    Write-Host "Module installed successfully." -ForegroundColor Green
-} else {
-    Write-Host "Module $ModuleName is already installed." -ForegroundColor Green
+# Ensure log directory exists
+if (-not (Test-Path $LogDir)) {
+    New-Item -Path $LogDir -ItemType Directory -Force | Out-Null
 }
 
-# Step 2: Import module
-Write-Host "Importing module $ModuleName..." -ForegroundColor Cyan
-Import-Module $ModuleName -ErrorAction Stop
-*Verification:* If no errors appeared, the module is successfully imported.
+# Prune log files older than 7 days
+Get-ChildItem -Path $LogDir -Filter "Set-Dell-BIOS-AC-Power-Recovery-On_*.log" | 
+    Where-Object { $_.LastWriteTime -lt (Get-Date).AddDays(-7) } | 
+    Remove-Item -Force -ErrorAction SilentlyContinue
 
-# Step 3: Check and navigate to the Dell SMBIOS drive
-if (-not (Get-PSDrive -Name $DriveName -ErrorAction SilentlyContinue)) {
-    Write-Warning "The $DriveName drive is not available on this system (Ensure this is a Dell system with compatible BIOS/SMBIOS drivers)."
-    Exit
+Write-Log "Starting Dell BIOS AC Power Recovery configuration script."
+
+try {
+    # --- Prerequisite Module Check ---
+    Write-Log "Checking for module: $ModuleName..."
+    $Module = Get-Module -ListAvailable -Name $ModuleName
+    if (-not $Module) {
+        Write-Log "Module $ModuleName not found. Installing..."
+        Install-Module -Name $ModuleName -Force -Scope AllUsers -ErrorAction Stop
+        Write-Log "Module $ModuleName installed successfully."
+    } else {
+        Write-Log "Module $ModuleName is already installed."
+    }
+
+    # --- Import Module ---
+    Write-Log "Importing module $ModuleName..."
+    Import-Module -Name $ModuleName -ErrorAction Stop
+
+    # --- Set Location & Attribute ---
+    if (-not (Test-Path $RegistryPath)) {
+        Write-Log "Path $RegistryPath does not exist on this system." -Level "ERROR"
+        throw "BIOS provider path not found: $RegistryPath"
+    }
+
+    Set-Location -Path $RegistryPath -ErrorAction Stop
+    Write-Log "Working directory set to $RegistryPath."
+
+    if (-not (Test-Path $AttributeName)) {
+        Write-Log "Attribute $AttributeName does not exist under $RegistryPath." -Level "ERROR"
+        throw "BIOS attribute not found: $AttributeName"
+    }
+
+    Write-Log "Setting $AttributeName to $DesiredValue..."
+    Set-Item -Path ".\$AttributeName" -Value $DesiredValue -ErrorAction Stop
+
+    $CurrentVal = (Get-Item -Path ".\$AttributeName").CurrentValue
+    Write-Log "Verification: $AttributeName current value is now $CurrentVal."
+
 }
-
-Set-Location $Path
-*Verification:* Your working directory is now set to `$Path`.
-
-# Step 4: Set AC Power Recovery value
-Write-Host "Setting $Attribute to $DesiredValue..." -ForegroundColor Cyan
-Set-Item -Path ".\$Attribute" -Value $DesiredValue -ErrorAction Stop
-
-# Step 5: Verify the new value
-Write-Host "Verifying the updated configuration..." -ForegroundColor Cyan
-$Result = Get-ItemProperty -Path ".\$Attribute"
-
-if ($Result.CurrentValue -eq $DesiredValue) {
-    Write-Host "SUCCESS: AC Power Recovery is verified and set to: $($Result.CurrentValue)" -ForegroundColor Green
-} else {
-    Write-Warning "VERIFICATION FAILED: Expected '$DesiredValue', but current value is '$($Result.CurrentValue)'."
+catch {
+    Write-Log "An error occurred: $_" -Level "ERROR"
+    throw $_
+}
+finally {
+    Write-Log "Script execution completed."
 }
